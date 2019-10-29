@@ -15,7 +15,7 @@
             android:name="io.fabric.ApiKey"
             android:value="eee373e21cba90ecc2361b5e13a255d849b5b3ec" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.registration.RegistrationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
