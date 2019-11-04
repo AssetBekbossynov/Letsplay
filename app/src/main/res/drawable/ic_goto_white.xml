@@ -1,0 +1,15 @@
+<!--
+  ~ Created by Asset Bekbossynov on 10/18/19 5:38 PM
+  ~  Copyright (c) 2019 . All rights reserved.
+  ~  Last modified 10/18/19 5:38 PM
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="16dp"
+    android:height="16dp"
+    android:viewportWidth="16"
+    android:viewportHeight="16">
+  <path
+      android:pathData="M1,9H12.17L7.29,13.88C6.9,14.27 6.9,14.91 7.29,15.3C7.68,15.69 8.31,15.69 8.7,15.3L15.29,8.71C15.68,8.32 15.68,7.69 15.29,7.3L8.71,0.7C8.32,0.31 7.69,0.31 7.3,0.7C6.91,1.09 6.91,1.72 7.3,2.11L12.17,7H1C0.45,7 0,7.45 0,8C0,8.55 0.45,9 1,9Z"
+      android:fillColor="#ffffff"/>
+</vector>

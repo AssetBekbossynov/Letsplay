@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Letsplay</string>
+
+    <string name="registration">Registration</string>
+    <string name="phone_number">Phone number</string>
+    <string name="password">Password</string>
+    <string name="password_again">Password again</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="next">Next</string>
+    <string name="have_account">Already have account</string>
 </resources>

@@ -17,7 +17,7 @@ class RegistrationActivity : AppCompatActivity(), RegistrationContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        presenter.createUser("asd", "asd", "asd")
+//        presenter.createUser("asd", "asd", "asd")
 
     }
 

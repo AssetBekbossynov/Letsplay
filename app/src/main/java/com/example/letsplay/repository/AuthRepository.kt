@@ -15,7 +15,7 @@ class AuthRepositoryImpl(private val service: AuthService): AuthRepository{
     override suspend fun createUser(cityCode: String, password: String, phoneNumber: String):
             UseCaseResult<CreateUserResponse>{
         return try {
-            val task = service.createUser(cityCode, password, phoneNumber, password)
+            val task = service.createUser("application/json", cityCode, password, phoneNumber, password)
             UseCaseResult.Success(task)
         } catch (ex: Exception){
             UseCaseResult.Error(ex)
