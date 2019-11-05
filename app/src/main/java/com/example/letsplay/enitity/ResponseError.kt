@@ -2,11 +2,8 @@ package com.example.letsplay.enitity
 
 import com.google.gson.annotations.SerializedName
 
-data class ResponseError(@SerializedName("debugMessage") val debugMessage: String?,
-                         @SerializedName("message") val message: String?,
-                         @SerializedName("path") val path: String?,
-                         @SerializedName("status") val status: Int?,
-                         @SerializedName("validationError") val validationErrors: List<CustomError>?)
+data class ResponseError(@SerializedName("message") val message: String?,
+                         @SerializedName("status") val status: String?)
 /*
 {
     "debugMessage": "string",

@@ -4,7 +4,7 @@
  * Created by sough on 10/07/2018.
  */
 
-package com.example.letsplay.helper
+package com.example.letsplay.enitity.exception
 
 import com.example.letsplay.enitity.ResponseError
 import com.google.gson.stream.MalformedJsonException
@@ -67,9 +67,9 @@ class RetrofitException internal constructor(val exMessage: String?,
 
         if (response?.errorBody() == null) {
             responseError = if (exMessage == null) {
-                ResponseError("error", "Server Error", null, null, null)
+                ResponseError("error", "Server Error")
             } else {
-                ResponseError("error", exMessage,null, null, null)
+                ResponseError("error", exMessage)
             }
             return responseError
         }
@@ -77,7 +77,7 @@ class RetrofitException internal constructor(val exMessage: String?,
         try {
             responseError = converter?.convert(response.errorBody()!!)
         } catch (e: MalformedJsonException) {
-            return ResponseError("error", "Server Error", null, null, null)
+            return ResponseError("error", "Server Error")
         }
 
         return responseError

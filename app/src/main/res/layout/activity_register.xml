@@ -28,6 +28,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progress"/>
 
+    <include
+        android:id="@+id/cityName"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/listPreferredItemHeight"
+        android:layout_marginTop="32dp"
+        layout="@layout/table_cell_optional"
+        app:layout_constraintTop_toBottomOf="@id/textView1"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/phone"
         android:layout_width="0dp"
@@ -35,12 +43,12 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
         app:boxCornerRadiusTopEnd="4dp"
         app:boxCornerRadiusTopStart="4dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView1">
+        app:layout_constraintTop_toBottomOf="@id/cityName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -96,17 +104,6 @@
             android:inputType="textPassword"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <include
-        android:id="@+id/bank_name"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/listPreferredItemHeight"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        layout="@layout/table_cell_optional"
-        app:layout_constraintTop_toBottomOf="@id/password_again"/>
-
 
     <Button
         android:id="@+id/next"

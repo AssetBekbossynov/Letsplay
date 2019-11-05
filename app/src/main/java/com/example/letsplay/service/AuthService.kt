@@ -1,19 +1,17 @@
 package com.example.letsplay.service
 
 import com.example.letsplay.enitity.auth.CreateUserResponse
+import com.example.letsplay.enitity.auth.UserRequest
+import com.example.letsplay.enitity.common.Country
 import retrofit2.http.*
 
 interface AuthService {
 
-    @FormUrlEncoded
     @POST("registration")
     suspend fun createUser(@Header("Content-Type") contentType: String,
-                           @Field("cityCode") cityCode: String,
-                           @Field("password") password: String,
-                           @Field("phoneNumber") phoneNumber: String,
-                           @Field("repeatPassword") repeatPassword: String): CreateUserResponse
+                           @Body user: UserRequest): CreateUserResponse
 
     @GET("country")
-    fun getCities(@Header("Content-Type") contentType: String)
+    suspend fun getCities(@Header("Content-Type") contentType: String): List<Country>
 
 }

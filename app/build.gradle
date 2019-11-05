@@ -31,6 +31,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
 
     applicationVariants.all { variant ->
@@ -75,6 +76,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0'
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+    implementation 'com.redmadrobot:inputmask:3.4.4'
 
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.7@aar') {
         transitive = true
