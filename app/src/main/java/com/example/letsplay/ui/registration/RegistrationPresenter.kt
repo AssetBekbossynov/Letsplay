@@ -3,6 +3,7 @@ package com.example.letsplay.ui.registration
 import com.example.letsplay.enitity.auth.UserRequest
 import com.example.letsplay.enitity.common.City
 import com.example.letsplay.enitity.exception.RetrofitException
+import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.UseCaseResult
 import com.example.letsplay.repository.AuthRepository
 import kotlinx.coroutines.*
@@ -24,7 +25,8 @@ class RegistrationPresenter(private val authRep: AuthRepository,
             when(result){
                 is UseCaseResult.Success -> view?.showRegistrationSuccess(result.data)
                 is UseCaseResult.Error -> {
-                    view?.showRegistrationError((result.exception as RetrofitException).getErrorBody()?.message)}
+                    view?.showRegistrationError(result.error?.message)
+                }
             }
         }
     }
@@ -45,7 +47,8 @@ class RegistrationPresenter(private val authRep: AuthRepository,
                     view?.onGetCitiesSuccess(cityList!!)
                 }
                 is UseCaseResult.Error -> {
-                    view?.onGetCitiesError((result.exception as RetrofitException).getErrorBody()?.message)}
+                    view?.onGetCitiesError(result.error?.message)
+                }
             }
         }
     }

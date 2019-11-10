@@ -1,6 +1,7 @@
 package com.example.letsplay.di
 
 import com.example.letsplay.BuildConfig
+import com.example.letsplay.enitity.exception.RxErrorHandlingCallAdapterFactory
 import com.example.letsplay.helper.Logger
 import com.example.letsplay.repository.AuthRepository
 import com.example.letsplay.repository.AuthRepositoryImpl
