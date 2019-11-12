@@ -1,27 +1,31 @@
-package com.example.letsplay.ui.registration
+package com.example.letsplay.ui.registration.register
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.example.letsplay.ui.common.BaseFragment
 import com.example.letsplay.R
-import com.example.letsplay.enitity.auth.CreateUserResponse
+import com.example.letsplay.enitity.auth.OtpResponse
 import com.example.letsplay.enitity.common.City
 import com.example.letsplay.helper.DialogListAdapter
+import com.example.letsplay.ui.registration.ContentChangedListener
+import com.example.letsplay.ui.registration.otp.OtpCheckFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.redmadrobot.inputmask.MaskedTextChangedListener
-import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
+import kotlinx.android.synthetic.main.registration_fragment.*
 import kotlinx.android.synthetic.main.table_cell_optional.view.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
-class RegistrationActivity : AppCompatActivity(), RegistrationContract.View {
+class RegistrationFragment: BaseFragment(), RegistrationContract.View {
 
     internal var dialog: AlertDialog? = null
     internal var builder: MaterialAlertDialogBuilder? = null
@@ -36,11 +40,21 @@ class RegistrationActivity : AppCompatActivity(), RegistrationContract.View {
 
     override val presenter: RegistrationContract.Presenter by inject { parametersOf(this) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+    private lateinit var listener: ContentChangedListener
 
-        context = this
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.listener = context as ContentChangedListener
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.registration_fragment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        context = activity
 
         cityName.value.editText?.isFocusable = false
         cityName.value.editText?.isClickable = true
@@ -66,13 +80,15 @@ class RegistrationActivity : AppCompatActivity(), RegistrationContract.View {
 
         next.setOnClickListener {
             if (password.editText?.text.toString().equals(password_again.editText?.text.toString())){
+                next.isEnabled = false
                 presenter.createUser(cityCode, password.editText?.text.toString(), phoneNumber)
             }else{
-                Toast.makeText(this, getString(R.string.doesnot_match_error), Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.doesnot_match_error), Toast.LENGTH_LONG).show()
             }
         }
 
         createCustomDialog()
+
     }
 
     private fun selectCity() {
@@ -135,15 +151,19 @@ class RegistrationActivity : AppCompatActivity(), RegistrationContract.View {
     }
 
     override fun showRegistrationError(msg: String?) {
-        Toast.makeText(this, "Error message: $msg", Toast.LENGTH_LONG).show()
+        next.isEnabled = true
+        Toast.makeText(context, "Error message: $msg", Toast.LENGTH_LONG).show()
     }
 
-    override fun showRegistrationSuccess(response: CreateUserResponse) {
-        Toast.makeText(this, "Success $response", Toast.LENGTH_LONG).show()
+    override fun showRegistrationSuccess(dto: OtpResponse) {
+        next.isEnabled = true
+        listener.onContentChange(OtpCheckFragment.newInstance(dto))
+
+        Toast.makeText(context, "Success $dto", Toast.LENGTH_LONG).show()
     }
 
     override fun onGetCitiesError(msg: String?) {
-        Toast.makeText(this, "Error message: $msg", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "Error message: $msg", Toast.LENGTH_LONG).show()
     }
 
     override fun onGetCitiesSuccess(cities: List<City>) {
@@ -153,9 +173,15 @@ class RegistrationActivity : AppCompatActivity(), RegistrationContract.View {
             cities[i].name.let { cityList.add(it) }
             cities[i].code.let { cityCodeList.add(it) }
         }
-        runOnUiThread {
+        activity?.runOnUiThread {
             showCustomDialog(cityList, cityName.value.editText)
             adapter?.notifyDataSetChanged()
+        }
+    }
+
+    companion object{
+        fun newInstance(): RegistrationFragment{
+            return RegistrationFragment()
         }
     }
 }

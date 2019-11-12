@@ -1,9 +1,7 @@
-package com.example.letsplay.ui.registration
+package com.example.letsplay.ui.registration.register
 
 import com.example.letsplay.enitity.auth.UserRequest
 import com.example.letsplay.enitity.common.City
-import com.example.letsplay.enitity.exception.RetrofitException
-import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.UseCaseResult
 import com.example.letsplay.repository.AuthRepository
 import kotlinx.coroutines.*

@@ -1,6 +1,6 @@
-package com.example.letsplay.ui.registration
+package com.example.letsplay.ui.registration.register
 
-import com.example.letsplay.enitity.auth.CreateUserResponse
+import com.example.letsplay.enitity.auth.OtpResponse
 import com.example.letsplay.enitity.common.City
 import com.example.letsplay.ui.common.BasePresenter
 import com.example.letsplay.ui.common.BaseView
@@ -8,7 +8,7 @@ import com.example.letsplay.ui.common.BaseView
 interface RegistrationContract {
     interface View: BaseView<Presenter>{
         fun showRegistrationError(msg: String?)
-        fun showRegistrationSuccess(response: CreateUserResponse)
+        fun showRegistrationSuccess(dto: OtpResponse)
         fun onGetCitiesError(msg: String?)
         fun onGetCitiesSuccess(cities: List<City>)
     }

@@ -1,24 +1,20 @@
 package com.example.letsplay.di
 
 import com.example.letsplay.BuildConfig
-import com.example.letsplay.enitity.exception.RxErrorHandlingCallAdapterFactory
 import com.example.letsplay.helper.Logger
 import com.example.letsplay.repository.AuthRepository
 import com.example.letsplay.repository.AuthRepositoryImpl
 import com.example.letsplay.service.AuthService
-import com.example.letsplay.ui.registration.RegistrationContract
-import com.example.letsplay.ui.registration.RegistrationPresenter
+import com.example.letsplay.ui.registration.register.RegistrationContract
+import com.example.letsplay.ui.registration.register.RegistrationPresenter
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-
-const val CREATE_USER = "CREATE_USER"
 
 val appModule = module {
 
@@ -26,15 +22,13 @@ val appModule = module {
     single { createService<AuthService>(get(), BuildConfig.API) }
 
 
-    factory { (view: RegistrationContract.View) -> RegistrationPresenter(get(), view) as RegistrationContract.Presenter }
+    factory { (view: RegistrationContract.View) -> RegistrationPresenter(
+        get(),
+        view
+    ) as RegistrationContract.Presenter }
 
     factory<AuthRepository> { AuthRepositoryImpl(service = get()) }
 }
-//
-//val domainModule = module {
-//    factory (CREATE_USER) { CheckRegisterOTP(get(), get(), get(EX_1), get(EX_2)) as UseCase<TokenDomain, CheckRegisterOTP.Params> }
-//
-//}
 
 /**
  * Creates singleton okHttp client
@@ -59,7 +53,6 @@ inline fun <reified T> createService(okHttpClient: OkHttpClient, url: String): T
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
-//        .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create()).build()
     return retrofit.create(T::class.java)
 }
 

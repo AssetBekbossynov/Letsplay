@@ -5,11 +5,20 @@
     <string name="phone_number">Phone number</string>
     <string name="password">Password</string>
     <string name="password_again">Password again</string>
-    <string name="forgot_password">Forgot password</string>
     <string name="next">Next</string>
     <string name="have_account">Already have account</string>
     <string name="doesnot_match_error">Passwords do not match</string>
     <string name="select_city">Select city</string>
     <string name="search">Search</string>
     <string name="cancel">Cancel</string>
+
+    <string name="confirm">Confirm</string>
+    <string name="phone_verification">Phone verification</string>
+    <string name="verification_text">Please enter code from SMS</string>
+    <string name="resend_sms_text">Resend SMS code?</string>
+    <string name="resend">Resend</string>
+
+    <string name="login">Log In</string>
+    <string name="forgot_password">Forgot password</string>
+
 </resources>
