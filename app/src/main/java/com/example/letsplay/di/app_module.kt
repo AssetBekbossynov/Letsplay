@@ -5,10 +5,10 @@ import com.example.letsplay.helper.Logger
 import com.example.letsplay.repository.AuthRepository
 import com.example.letsplay.repository.AuthRepositoryImpl
 import com.example.letsplay.service.AuthService
-import com.example.letsplay.ui.registration.otp.OtpCheckContract
-import com.example.letsplay.ui.registration.otp.OtpCheckPresenter
-import com.example.letsplay.ui.registration.register.RegistrationContract
-import com.example.letsplay.ui.registration.register.RegistrationPresenter
+import com.example.letsplay.ui.auth.otp.OtpCheckContract
+import com.example.letsplay.ui.auth.otp.OtpCheckPresenter
+import com.example.letsplay.ui.auth.register.RegistrationContract
+import com.example.letsplay.ui.auth.register.RegistrationPresenter
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Dispatchers

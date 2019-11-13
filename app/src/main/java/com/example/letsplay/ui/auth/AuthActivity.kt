@@ -1,10 +1,10 @@
-package com.example.letsplay.ui.registration
+package com.example.letsplay.ui.auth
 
 import android.os.Bundle
 import com.example.letsplay.R
 import com.example.letsplay.ui.common.BaseActivity
 import com.example.letsplay.ui.common.BaseFragment
-import com.example.letsplay.ui.registration.register.RegistrationFragment
+import com.example.letsplay.ui.auth.register.RegistrationFragment
 
 class AuthActivity : BaseActivity(), ContentChangedListener {
 

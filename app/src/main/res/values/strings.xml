@@ -22,5 +22,12 @@
 
     <string name="login">Log In</string>
     <string name="forgot_password">Forgot password</string>
+    <string name="forgot_password_text">Enter the phone number you\'ve entered when you registered. You\'ll receive a text code to confirm.</string>
+
+    <string name="home">Home</string>
+    <string name="favorites">Favorites</string>
+    <string name="create_match">Create match</string>
+    <string name="notification">Notification</string>
+    <string name="profile">Profile</string>
 
 </resources>

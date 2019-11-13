@@ -1,4 +1,4 @@
-package com.example.letsplay.ui.registration.otp
+package com.example.letsplay.ui.auth.otp
 
 import android.content.Context
 import android.os.Bundle
@@ -15,15 +15,14 @@ import com.example.letsplay.ui.common.BaseFragment
 import com.example.letsplay.R
 import com.example.letsplay.enitity.auth.OtpResponse
 import com.example.letsplay.helper.ConstantsExtra
-import com.example.letsplay.ui.registration.ContentChangedListener
+import com.example.letsplay.ui.auth.ContentChangedListener
 import kotlinx.android.synthetic.main.otp_check_fragment.*
 import kotlinx.android.synthetic.main.otp_check_fragment.next
-import kotlinx.android.synthetic.main.registration_fragment.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
 
-class OtpCheckFragment: BaseFragment(), OtpCheckContract.View{
+class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
 
     override val presenter: OtpCheckContract.Presenter by inject { parametersOf(this) }
 
@@ -201,7 +200,7 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View{
     }
 
     companion object{
-        fun newInstance(dto: OtpResponse): OtpCheckFragment{
+        fun newInstance(dto: OtpResponse): OtpCheckFragment {
             val fragment = OtpCheckFragment()
             val arguments = Bundle()
             arguments.putParcelable(ConstantsExtra.OTP_RESPONSE, dto)

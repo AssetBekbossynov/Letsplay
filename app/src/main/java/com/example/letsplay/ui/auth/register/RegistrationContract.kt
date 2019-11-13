@@ -1,4 +1,4 @@
-package com.example.letsplay.ui.registration.register
+package com.example.letsplay.ui.auth.register
 
 import com.example.letsplay.enitity.auth.OtpResponse
 import com.example.letsplay.enitity.common.City

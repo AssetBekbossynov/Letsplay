@@ -1,4 +1,4 @@
-package com.example.letsplay.ui.registration.register
+package com.example.letsplay.ui.auth.register
 
 import android.content.Context
 import android.os.Bundle
@@ -15,8 +15,8 @@ import com.example.letsplay.R
 import com.example.letsplay.enitity.auth.OtpResponse
 import com.example.letsplay.enitity.common.City
 import com.example.letsplay.helper.DialogListAdapter
-import com.example.letsplay.ui.registration.ContentChangedListener
-import com.example.letsplay.ui.registration.otp.OtpCheckFragment
+import com.example.letsplay.ui.auth.ContentChangedListener
+import com.example.letsplay.ui.auth.otp.OtpCheckFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
@@ -25,7 +25,8 @@ import kotlinx.android.synthetic.main.table_cell_optional.view.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
-class RegistrationFragment: BaseFragment(), RegistrationContract.View {
+class RegistrationFragment: BaseFragment(),
+    RegistrationContract.View {
 
     internal var dialog: AlertDialog? = null
     internal var builder: MaterialAlertDialogBuilder? = null
@@ -181,7 +182,7 @@ class RegistrationFragment: BaseFragment(), RegistrationContract.View {
     }
 
     companion object{
-        fun newInstance(): RegistrationFragment{
+        fun newInstance(): RegistrationFragment {
             return RegistrationFragment()
         }
     }

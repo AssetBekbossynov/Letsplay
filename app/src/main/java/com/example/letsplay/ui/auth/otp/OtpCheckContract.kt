@@ -1,4 +1,4 @@
-package com.example.letsplay.ui.registration.otp
+package com.example.letsplay.ui.auth.otp
 
 import com.example.letsplay.ui.common.BasePresenter
 import com.example.letsplay.ui.common.BaseView
