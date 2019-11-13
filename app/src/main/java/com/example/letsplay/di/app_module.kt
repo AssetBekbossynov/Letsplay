@@ -5,27 +5,37 @@ import com.example.letsplay.helper.Logger
 import com.example.letsplay.repository.AuthRepository
 import com.example.letsplay.repository.AuthRepositoryImpl
 import com.example.letsplay.service.AuthService
+import com.example.letsplay.ui.registration.otp.OtpCheckContract
+import com.example.letsplay.ui.registration.otp.OtpCheckPresenter
 import com.example.letsplay.ui.registration.register.RegistrationContract
 import com.example.letsplay.ui.registration.register.RegistrationPresenter
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.CoroutineContext
 
 val appModule = module {
 
     single { createOkHttpClient() }
     single { createService<AuthService>(get(), BuildConfig.API) }
-
+    single { Dispatchers.Main + Job() }
 
     factory { (view: RegistrationContract.View) -> RegistrationPresenter(
         get(),
         view
     ) as RegistrationContract.Presenter }
+    factory { (view: OtpCheckContract.View) -> OtpCheckPresenter(
+        get(),
+        get(),
+        view
+    ) as OtpCheckContract.Presenter }
 
     factory<AuthRepository> { AuthRepositoryImpl(service = get()) }
 }

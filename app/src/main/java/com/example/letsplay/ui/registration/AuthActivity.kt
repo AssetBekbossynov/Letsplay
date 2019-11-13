@@ -16,7 +16,7 @@ class AuthActivity : BaseActivity(), ContentChangedListener {
     }
 
     override fun onContentChange(fragment: BaseFragment) {
-        addFragment(R.id.fragment_container, fragment, backStack = true, transition = true)
+        replaceFragment(R.id.fragment_container, fragment, backStack = true, transition = true)
     }
 }
 

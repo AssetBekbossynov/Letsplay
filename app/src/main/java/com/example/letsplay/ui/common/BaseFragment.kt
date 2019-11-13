@@ -13,4 +13,9 @@ abstract class BaseFragment: Fragment() {
                    negativeText: String = "", negativeAction: (() -> Unit)? = null) {
         (activity as? BaseActivity)?.showDialog(title, message, positiveText, positiveAction, negativeText, negativeAction)
     }
+
+    fun replaceFragment(containerId: Int, fragment: Fragment, backStack: Boolean = true,
+                        transition: Boolean = false) {
+        (activity as? BaseActivity)?.replaceFragment(containerId, fragment, backStack, transition)
+    }
 }

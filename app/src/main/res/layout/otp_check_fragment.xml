@@ -73,7 +73,7 @@
         android:layout_height="68dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/et_border"
+        android:background="@drawable/et_bottom_line_gray"
         android:inputType="number"
         android:maxLength="1"
         android:enabled="false"
@@ -93,7 +93,7 @@
         android:layout_height="68dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/et_border"
+        android:background="@drawable/et_bottom_line_gray"
         android:inputType="number"
         android:maxLength="1"
         android:enabled="false"
@@ -113,7 +113,7 @@
         android:layout_height="68dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/et_border"
+        android:background="@drawable/et_bottom_line_gray"
         android:inputType="number"
         android:maxLength="1"
         android:enabled="false"
@@ -133,10 +133,9 @@
         android:layout_width="48dp"
         android:layout_height="68dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/et_border"
+        android:background="@drawable/et_bottom_line_gray"
         android:inputType="number"
         android:maxLength="1"
-        android:enabled="false"
         android:textColor="@color/black"
         android:textAlignment="center"
         android:textSize="22sp"
@@ -145,7 +144,6 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/num3"
         app:layout_constraintTop_toBottomOf="@id/timerLayout" />
-
 
     <Button
         android:id="@+id/next"

@@ -2,23 +2,16 @@ package com.example.letsplay.ui.common
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
-import android.view.animation.RotateAnimation
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.example.letsplay.R
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.example.letsplay.R
 import com.example.letsplay.helper.utility.visible
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.toolbar.view.*
@@ -218,7 +211,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-    protected fun replaceFragment(containerId: Int, fragment: Fragment, backStack: Boolean = true,
+    fun replaceFragment(containerId: Int, fragment: Fragment, backStack: Boolean = true,
                                   transition: Boolean = false) {
         supportFragmentManager.beginTransaction().apply {
             replace(containerId, fragment)
@@ -233,7 +226,7 @@ abstract class BaseActivity : AppCompatActivity() {
         supportFragmentManager.executePendingTransactions()
     }
 
-    protected fun addFragment(containerId: Int, fragment: Fragment, backStack: Boolean = true,
+    fun addFragment(containerId: Int, fragment: Fragment, backStack: Boolean = true,
                                   transition: Boolean = false) {
         supportFragmentManager.beginTransaction().apply {
             add(containerId, fragment)

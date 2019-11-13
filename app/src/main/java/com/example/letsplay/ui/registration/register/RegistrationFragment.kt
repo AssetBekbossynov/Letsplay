@@ -89,6 +89,9 @@ class RegistrationFragment: BaseFragment(), RegistrationContract.View {
 
         createCustomDialog()
 
+        password.editText?.setText("Test1234!")
+        password_again.editText?.setText("Test1234!")
+
     }
 
     private fun selectCity() {
@@ -158,8 +161,6 @@ class RegistrationFragment: BaseFragment(), RegistrationContract.View {
     override fun showRegistrationSuccess(dto: OtpResponse) {
         next.isEnabled = true
         listener.onContentChange(OtpCheckFragment.newInstance(dto))
-
-        Toast.makeText(context, "Success $dto", Toast.LENGTH_LONG).show()
     }
 
     override fun onGetCitiesError(msg: String?) {
