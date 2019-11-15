@@ -8,11 +8,9 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 class RegistrationPresenter(private val authRep: AuthRepository,
+                            override val coroutineContext: CoroutineContext,
                             override var view: RegistrationContract.View?) :
     RegistrationContract.Presenter, CoroutineScope {
-
-    private val job = Job()
-    override val coroutineContext: CoroutineContext = Dispatchers.Main + job
 
     override fun createUser(cityCode: String?, password: String, phoneNumber: String?) {
         launch {

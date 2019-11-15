@@ -15,11 +15,11 @@ class AuthActivity : BaseActivity(), ContentChangedListener {
         replaceFragment(R.id.fragment_container, RegistrationFragment.newInstance(), backStack = false, transition = true)
     }
 
-    override fun onContentChange(fragment: BaseFragment) {
-        replaceFragment(R.id.fragment_container, fragment, backStack = true, transition = true)
+    override fun onContentChange(fragment: BaseFragment, backStack: Boolean) {
+        replaceFragment(R.id.fragment_container, fragment, backStack, transition = true)
     }
 }
 
 interface ContentChangedListener{
-    fun onContentChange(fragment: BaseFragment)
+    fun onContentChange(fragment: BaseFragment, backStack: Boolean = true)
 }

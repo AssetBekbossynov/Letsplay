@@ -16,6 +16,7 @@ import com.example.letsplay.R
 import com.example.letsplay.enitity.auth.OtpResponse
 import com.example.letsplay.helper.ConstantsExtra
 import com.example.letsplay.ui.auth.ContentChangedListener
+import com.example.letsplay.ui.auth.login.LoginFragment
 import kotlinx.android.synthetic.main.otp_check_fragment.*
 import kotlinx.android.synthetic.main.otp_check_fragment.next
 import org.koin.android.ext.android.inject
@@ -103,6 +104,11 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
         handler.postDelayed(counter, 0)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(counter)
+    }
+
     override fun onResendSuccess() {
         seconds = arguments?.getParcelable<OtpResponse>(ConstantsExtra.OTP_RESPONSE)?.expiresIn!! * 60
         Toast.makeText(context, getString(R.string.resend_success), Toast.LENGTH_LONG).show()
@@ -114,8 +120,7 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
 
     override fun onUserActivationSuccess() {
         next.isEnabled = true
-        Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
-
+        listener.onContentChange(LoginFragment.newInstance(), false)
     }
 
     override fun onUserActivationError(msg: String?) {

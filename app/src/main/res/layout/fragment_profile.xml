@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/profilePhoto"
+        android:layout_height="65dp"
+        android:layout_width="65dp"
+        app:srcCompat="@drawable/ic_launcher_background"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        tools:text="Name nickname surname"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/profilePhoto"
+        app:layout_constraintTop_toTopOf="@id/profilePhoto"/>
+
+    <TextView
+        android:id="@+id/region"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        tools:text="Almaty, Kazakhstan"
+        app:layout_constraintStart_toStartOf="@id/name"
+        app:layout_constraintTop_toBottomOf="@id/name"/>
+
+    <TextView
+        android:id="@+id/genderAge"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        tools:text="Male, 22 years"
+        app:layout_constraintStart_toStartOf="@id/name"
+        app:layout_constraintTop_toBottomOf="@id/region"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

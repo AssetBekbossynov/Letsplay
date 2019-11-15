@@ -5,6 +5,8 @@ import com.example.letsplay.helper.Logger
 import com.example.letsplay.repository.AuthRepository
 import com.example.letsplay.repository.AuthRepositoryImpl
 import com.example.letsplay.service.AuthService
+import com.example.letsplay.ui.auth.login.LoginContract
+import com.example.letsplay.ui.auth.login.LoginPresenter
 import com.example.letsplay.ui.auth.otp.OtpCheckContract
 import com.example.letsplay.ui.auth.otp.OtpCheckPresenter
 import com.example.letsplay.ui.auth.register.RegistrationContract
@@ -29,6 +31,7 @@ val appModule = module {
 
     factory { (view: RegistrationContract.View) -> RegistrationPresenter(
         get(),
+        get(),
         view
     ) as RegistrationContract.Presenter }
     factory { (view: OtpCheckContract.View) -> OtpCheckPresenter(
@@ -36,6 +39,11 @@ val appModule = module {
         get(),
         view
     ) as OtpCheckContract.Presenter }
+    factory { (view: LoginContract.View) -> LoginPresenter(
+        get(),
+        get(),
+        view
+    ) as LoginContract.Presenter }
 
     factory<AuthRepository> { AuthRepositoryImpl(service = get()) }
 }

@@ -29,5 +29,6 @@
     <string name="create_match">Create match</string>
     <string name="notification">Notification</string>
     <string name="profile">Profile</string>
+    <string name="password_login_empty">Please enter phone and/or password</string>
 
 </resources>

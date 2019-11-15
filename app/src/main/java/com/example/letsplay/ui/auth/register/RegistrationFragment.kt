@@ -16,6 +16,7 @@ import com.example.letsplay.enitity.auth.OtpResponse
 import com.example.letsplay.enitity.common.City
 import com.example.letsplay.helper.DialogListAdapter
 import com.example.letsplay.ui.auth.ContentChangedListener
+import com.example.letsplay.ui.auth.login.LoginFragment
 import com.example.letsplay.ui.auth.otp.OtpCheckFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.redmadrobot.inputmask.MaskedTextChangedListener
@@ -86,6 +87,10 @@ class RegistrationFragment: BaseFragment(),
             }else{
                 Toast.makeText(context, getString(R.string.doesnot_match_error), Toast.LENGTH_LONG).show()
             }
+        }
+
+        have_account.setOnClickListener {
+            listener.onContentChange(LoginFragment.newInstance(), false)
         }
 
         createCustomDialog()

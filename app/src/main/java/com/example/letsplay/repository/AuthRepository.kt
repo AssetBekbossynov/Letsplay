@@ -1,17 +1,22 @@
 package com.example.letsplay.repository
 
 import com.example.letsplay.enitity.ResponseError
-import com.example.letsplay.enitity.auth.OtpResponse
-import com.example.letsplay.enitity.auth.UserActivateRequest
-import com.example.letsplay.enitity.auth.UserDto
-import com.example.letsplay.enitity.auth.UserRequest
+import com.example.letsplay.enitity.auth.*
 import com.example.letsplay.enitity.common.Country
+import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.UseCaseResult
 import com.example.letsplay.service.AuthService
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonSyntaxException
+import okhttp3.ResponseBody
 import retrofit2.HttpException
 import java.io.IOException
 import kotlin.Exception
+import retrofit2.adapter.rxjava2.Result.response
+import android.R.string
+import org.json.JSONObject
+
+
 
 interface AuthRepository {
 
@@ -19,6 +24,7 @@ interface AuthRepository {
     suspend fun getCities(): UseCaseResult<List<Country>>
     suspend fun activateUser(userActivateRequest: UserActivateRequest): UseCaseResult<UserDto>
     suspend fun resendSms(phone: String): UseCaseResult<Unit>
+    suspend fun login(login: Login): UseCaseResult<ResponseBody>
 }
 
 class AuthRepositoryImpl(private val service: AuthService): AuthRepository{
@@ -99,16 +105,34 @@ class AuthRepositoryImpl(private val service: AuthService): AuthRepository{
         }
     }
 
+    override suspend fun login(login: Login): UseCaseResult<ResponseBody> {
+        return try {
+            val task = service.login("application/json", login)
+            Logger.msg("header " + task)
+            UseCaseResult.Success(task)
+        } catch (ex: Exception){
+            when(ex) {
+                is IOException -> {
+                    UseCaseResult.Error(ex as IOException)
+                }
+                is HttpException -> {
+                    UseCaseResult.Error(error = convertErrorBody(ex))
+                }
+                else -> {
+                    UseCaseResult.Error(ex)
+                }
+            }
+        }
+    }
+
     private fun convertErrorBody(throwable: HttpException): ResponseError? {
         return try {
-            throwable.response()?.message()?.let {
-                val gson = GsonBuilder().create()
-                gson.fromJson(it, ResponseError::class.java)
-
-//                val moshiAdapter = Moshi.Builder().build().adapter(ResponseError::class.java)
-//                moshiAdapter.fromJson(it)
-            }
-        } catch (exception: Exception) {
+            val jObjError = JSONObject(throwable.response()?.errorBody()?.string())
+            Logger.msg("here1 " + jObjError.getString("message"))
+            val error = ResponseError(jObjError.getString("message"), jObjError.getString("status"))
+            error
+        } catch (exception: JsonSyntaxException) {
+            Logger.msg("motherfucker i am here")
             null
         }
     }

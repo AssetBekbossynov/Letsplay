@@ -1,10 +1,8 @@
 package com.example.letsplay.service
 
-import com.example.letsplay.enitity.auth.OtpResponse
-import com.example.letsplay.enitity.auth.UserActivateRequest
-import com.example.letsplay.enitity.auth.UserDto
-import com.example.letsplay.enitity.auth.UserRequest
+import com.example.letsplay.enitity.auth.*
 import com.example.letsplay.enitity.common.Country
+import okhttp3.ResponseBody
 import retrofit2.http.*
 
 interface AuthService {
@@ -24,4 +22,7 @@ interface AuthService {
     suspend fun resendOtp(@Header("Content-Type") contentType: String,
                           @Path("phoneNumber") phone: String)
 
+    @POST("login")
+    suspend fun login(@Header("Content-Type") contentType: String,
+                      @Body login: Login): ResponseBody
 }

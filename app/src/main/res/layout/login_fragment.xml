@@ -74,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
-        android:id="@+id/next"
+        android:id="@+id/login"
         android:layout_height="?attr/listPreferredItemHeight"
         android:layout_width="match_parent"
         android:text="@string/login"
