@@ -3,6 +3,7 @@ package com.example.letsplay.service
 import com.example.letsplay.enitity.auth.*
 import com.example.letsplay.enitity.common.Country
 import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.http.*
 
 interface AuthService {
@@ -24,5 +25,5 @@ interface AuthService {
 
     @POST("login")
     suspend fun login(@Header("Content-Type") contentType: String,
-                      @Body login: Login): ResponseBody
+                      @Body login: Login): Response<UserDto>
 }

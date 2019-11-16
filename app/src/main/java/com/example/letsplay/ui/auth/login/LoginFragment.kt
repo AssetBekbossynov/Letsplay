@@ -8,8 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.letsplay.R
+import com.example.letsplay.enitity.auth.UserDto
+import com.example.letsplay.helper.ConstantsExtra
+import com.example.letsplay.helper.Logger
 import com.example.letsplay.ui.auth.ContentChangedListener
 import com.example.letsplay.ui.auth.forgot.ForgotPasswordFragment
+import com.example.letsplay.ui.questionnaire.QuestionnaireActivity
 import com.example.letsplay.ui.common.BaseFragment
 import com.example.letsplay.ui.main.MainActivity
 import com.redmadrobot.inputmask.MaskedTextChangedListener
@@ -76,11 +80,12 @@ class LoginFragment : BaseFragment(), LoginContract.View{
         }
 
         password.editText?.setText("Test1234!")
-        phone.editText?.setText("77073079068!")
+        phone.editText?.setText("70000000000")
     }
 
-    override fun onLoginSuccess() {
+    override fun onLoginSuccess(userDto: UserDto?) {
         val intent = Intent(context, MainActivity::class.java)
+        intent.putExtra(ConstantsExtra.USER_DTO, userDto)
         startActivity(intent)
         activity?.finish()
     }

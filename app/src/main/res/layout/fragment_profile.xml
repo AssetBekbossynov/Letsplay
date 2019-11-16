@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profilePhoto"
         android:layout_height="65dp"
         android:layout_width="65dp"
-        app:srcCompat="@drawable/ic_launcher_background"
+        android:src="@drawable/photo"
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"

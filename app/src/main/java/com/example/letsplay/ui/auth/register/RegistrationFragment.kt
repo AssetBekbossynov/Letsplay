@@ -15,6 +15,7 @@ import com.example.letsplay.R
 import com.example.letsplay.enitity.auth.OtpResponse
 import com.example.letsplay.enitity.common.City
 import com.example.letsplay.helper.DialogListAdapter
+import com.example.letsplay.helper.utility.visible
 import com.example.letsplay.ui.auth.ContentChangedListener
 import com.example.letsplay.ui.auth.login.LoginFragment
 import com.example.letsplay.ui.auth.otp.OtpCheckFragment
@@ -58,6 +59,7 @@ class RegistrationFragment: BaseFragment(),
 
         context = activity
 
+        cityName.spinner.visible()
         cityName.value.editText?.isFocusable = false
         cityName.value.editText?.isClickable = true
         cityName.value.hint = getString(R.string.select_city)

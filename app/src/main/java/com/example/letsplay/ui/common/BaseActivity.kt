@@ -3,12 +3,15 @@ package com.example.letsplay.ui.common
 import android.content.Context
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import android.widget.DatePicker
+import android.widget.EditText
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.letsplay.R
@@ -21,6 +24,8 @@ abstract class BaseActivity : AppCompatActivity() {
     protected var isLocked = false
 
     private var currentDialog: AlertDialog? = null
+
+    private var dialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +67,33 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    protected fun showCustomDialog(editField: EditText?){
+        dialog?.dismiss()
+        val builder = AlertDialog.Builder(this)
+        val layoutInflater = layoutInflater
+        val dialogView = layoutInflater.inflate(R.layout.date_picker_dialog, null)
+        builder.setView(dialogView)
+        builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+            dialog.cancel() }
+        builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+            val datePicker = dialogView.findViewById<DatePicker>(R.id.date_picker)
+            val date = "${datePicker.year}-${String.format("%02d", datePicker.month+1)}-${String.format("%02d", datePicker.dayOfMonth)}"
+            editField?.setText(date)
+            dialog.cancel() }
+        dialog = builder.create()
+        dialog?.setOnShowListener {
+            this.let {
+                    ctx -> ContextCompat.getColor(ctx, R.color.colorAccent) }.let {
+                    color -> dialog?.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(color)
+            }
+            this.let {
+                    ctx -> ContextCompat.getColor(ctx, R.color.colorAccent) }.let {
+                    color -> dialog?.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(color)
+            }
+        }
+        dialog?.show()
     }
 
 //    private fun showProgressLayout(hintMessage: String) {

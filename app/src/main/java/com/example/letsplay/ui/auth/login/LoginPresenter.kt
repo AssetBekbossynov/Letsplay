@@ -19,7 +19,7 @@ class LoginPresenter(private val authRep: AuthRepository,
                 authRep.login(login)
             }
             when(result){
-                is UseCaseResult.Success -> view?.onLoginSuccess()
+                is UseCaseResult.Success -> view?.onLoginSuccess(result.data.body())
                 is UseCaseResult.Error -> {
                     view?.onLoginError(result.error?.message)
                 }

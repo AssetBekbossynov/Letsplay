@@ -14,8 +14,9 @@ import java.io.IOException
 import kotlin.Exception
 import retrofit2.adapter.rxjava2.Result.response
 import android.R.string
+import com.example.letsplay.service.LocalStorage
 import org.json.JSONObject
-
+import retrofit2.Response
 
 
 interface AuthRepository {
@@ -24,10 +25,10 @@ interface AuthRepository {
     suspend fun getCities(): UseCaseResult<List<Country>>
     suspend fun activateUser(userActivateRequest: UserActivateRequest): UseCaseResult<UserDto>
     suspend fun resendSms(phone: String): UseCaseResult<Unit>
-    suspend fun login(login: Login): UseCaseResult<ResponseBody>
+    suspend fun login(login: Login): UseCaseResult<Response<UserDto>>
 }
 
-class AuthRepositoryImpl(private val service: AuthService): AuthRepository{
+class AuthRepositoryImpl(private val service: AuthService, private val localStorage: LocalStorage): AuthRepository{
     override suspend fun getCities(): UseCaseResult<List<Country>> {
         return try {
             val task = service.getCities("application/json")
@@ -105,10 +106,10 @@ class AuthRepositoryImpl(private val service: AuthService): AuthRepository{
         }
     }
 
-    override suspend fun login(login: Login): UseCaseResult<ResponseBody> {
+    override suspend fun login(login: Login): UseCaseResult<Response<UserDto>> {
         return try {
             val task = service.login("application/json", login)
-            Logger.msg("header " + task)
+            localStorage.setToken(task.headers().get("X-Auth-Token")!!)
             UseCaseResult.Success(task)
         } catch (ex: Exception){
             when(ex) {
@@ -132,7 +133,6 @@ class AuthRepositoryImpl(private val service: AuthService): AuthRepository{
             val error = ResponseError(jObjError.getString("message"), jObjError.getString("status"))
             error
         } catch (exception: JsonSyntaxException) {
-            Logger.msg("motherfucker i am here")
             null
         }
     }

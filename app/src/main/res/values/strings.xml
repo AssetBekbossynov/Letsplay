@@ -11,6 +11,7 @@
     <string name="select_city">Select city</string>
     <string name="search">Search</string>
     <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 
     <string name="confirm">Confirm</string>
     <string name="phone_verification">Phone verification</string>
@@ -30,5 +31,24 @@
     <string name="notification">Notification</string>
     <string name="profile">Profile</string>
     <string name="password_login_empty">Please enter phone and/or password</string>
+
+    <string name="edit_profile">Profile editing</string>
+    <string name="personal_information">Personal information</string>
+    <string name="name">Name</string>
+    <string name="nickname">Nickname*</string>
+    <string name="surname">Surname</string>
+    <string name="gender">Gender*</string>
+    <string name="birth_date">Date of birth</string>
+    <string name="city">City*</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+
+    <string name="profile_full_name">%s %s %s</string>
+    <string name="profile_gender_age">%s %s</string>
+
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 
 </resources>
