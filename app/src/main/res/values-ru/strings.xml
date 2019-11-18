@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Letsplay</string>
+    <string name="birth_date">Дата рождения</string>
+    <string name="cancel">Отменить</string>
+    <string name="city">Город*</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="create_match">Создать матч</string>
+    <string name="doesnot_match_error">Пароли не совпадают</string>
+    <string name="edit">Редактировать</string>
+    <string name="edit_profile">Редактирование профиля</string>
+    <string name="favorites">Избранное</string>
+    <string name="forgot_password">Забыл пароль</string>
+    <string name="forgot_password_text">Введите номер телефона, введенный при регистрации. Вы получите текстовый код для подтверждения.</string>
+    <string name="gender">Пол*</string>
+    <string name="have_account">Уже зарегистрированы</string>
+    <string name="home">Главная</string>
+    <string name="limit_exceed">Вы достигли лимита. Пожалуйста, повторите попытку позже</string>
+    <string name="login">Вход в систему</string>
+    <string name="name">Имя</string>
+    <string name="next">Следующий шаг</string>
+    <string name="nickname">Никнейм</string>
+    <string name="notification">Уведомления</string>
+    <string name="password">Пароль</string>
+    <string name="password_again">Пароль еще раз</string>
+    <string name="password_login_empty">Введите телефон и/или пароль</string>
+    <string name="personal_information">Личные данные</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="phone_verification">Подтверждение телефона</string>
+    <string name="profile">Профиль</string>
+    <string name="registration">Регистрация</string>
+    <string name="resend">Переотправить</string>
+    <string name="resend_sms_text">Отправить SMS код?</string>
+    <string name="resend_success">SMS с кодом был отправлен</string>
+    <string name="save">Сохранить</string>
+    <string name="search">Пойск</string>
+    <string name="select_city">Выбрать город</string>
+    <string name="surname">Фамилия</string>
+    <string name="verification_text">Это поможет нам аутентифицировать каждого пользователя сервиса, для вашей собственной безопасности.</string>
+    <string name="field_must_not_be_empty">Поля не должны быть пустыми</string>
+</resources>

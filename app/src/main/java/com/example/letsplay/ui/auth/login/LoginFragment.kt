@@ -11,12 +11,14 @@ import com.example.letsplay.R
 import com.example.letsplay.enitity.auth.UserDto
 import com.example.letsplay.helper.ConstantsExtra
 import com.example.letsplay.helper.Logger
+import com.example.letsplay.ui.auth.AuthActivity
 import com.example.letsplay.ui.auth.ContentChangedListener
 import com.example.letsplay.ui.auth.forgot.ForgotPasswordFragment
 import com.example.letsplay.ui.questionnaire.QuestionnaireActivity
 import com.example.letsplay.ui.common.BaseFragment
 import com.example.letsplay.ui.main.MainActivity
 import com.redmadrobot.inputmask.MaskedTextChangedListener
+import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.android.synthetic.main.login_fragment.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
@@ -65,6 +67,8 @@ class LoginFragment : BaseFragment(), LoginContract.View{
             }
         )
         editText.addTextChangedListener(maskedTextChangedListener)
+
+        (activity as AuthActivity).progress.progress = 0
 
         forgot_password.setOnClickListener {
             listener.onContentChange(ForgotPasswordFragment.newInstance(), false)

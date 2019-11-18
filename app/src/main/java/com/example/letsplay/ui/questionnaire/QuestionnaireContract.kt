@@ -16,6 +16,6 @@ interface QuestionnaireContract {
 
     interface Presenter: BasePresenter<View>{
         fun getCities()
-        fun updateUser(userUpdateRequest: UserUpdateRequest)
+        fun completeUser(userUpdateRequest: UserUpdateRequest)
     }
 }

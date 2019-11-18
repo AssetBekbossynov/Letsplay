@@ -3,7 +3,7 @@ package com.example.letsplay.enitity
 import com.google.gson.annotations.SerializedName
 
 data class ResponseError(@SerializedName("message") val message: String?,
-                         @SerializedName("status") val status: String?)
+                         @SerializedName("status") val status: Int?)
 /*
 {
     "debugMessage": "string",

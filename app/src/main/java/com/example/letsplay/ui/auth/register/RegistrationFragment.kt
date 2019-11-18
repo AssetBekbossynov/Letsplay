@@ -3,6 +3,7 @@ package com.example.letsplay.ui.auth.register
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
+import android.text.Selection
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +16,15 @@ import com.example.letsplay.R
 import com.example.letsplay.enitity.auth.OtpResponse
 import com.example.letsplay.enitity.common.City
 import com.example.letsplay.helper.DialogListAdapter
+import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.utility.visible
 import com.example.letsplay.ui.auth.ContentChangedListener
 import com.example.letsplay.ui.auth.login.LoginFragment
 import com.example.letsplay.ui.auth.otp.OtpCheckFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
 import com.redmadrobot.inputmask.MaskedTextChangedListener
+import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
 import kotlinx.android.synthetic.main.registration_fragment.*
 import kotlinx.android.synthetic.main.table_cell_optional.view.*
@@ -69,6 +73,7 @@ class RegistrationFragment: BaseFragment(),
         }
 
         val editText = phone!!.editText!!
+        editText.setText("+7 (")
         maskedTextChangedListener = MaskedTextChangedListener(
             "+7 ([000]) [0000000]",
             true,
@@ -81,13 +86,19 @@ class RegistrationFragment: BaseFragment(),
             }
         )
         editText.addTextChangedListener(maskedTextChangedListener)
+        Selection.setSelection(editText.text, editText.text.toString().length);
 
         next.setOnClickListener {
-            if (password.editText?.text.toString().equals(password_again.editText?.text.toString())){
-                next.isEnabled = false
-                presenter.createUser(cityCode, password.editText?.text.toString(), phoneNumber)
+            if (!cityName.value.editText?.text.toString().equals("") && phone.editText?.text.toString().length > 4 &&
+                    !password.editText?.text.toString().equals("")){
+                if (password.editText?.text.toString().equals(password_again.editText?.text.toString())){
+                    next.isEnabled = false
+                    presenter.createUser(cityCode, password.editText?.text.toString(), phoneNumber)
+                }else{
+                    Toast.makeText(context, getString(R.string.doesnot_match_error), Toast.LENGTH_LONG).show()
+                }
             }else{
-                Toast.makeText(context, getString(R.string.doesnot_match_error), Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.field_must_not_be_empty), Toast.LENGTH_LONG).show()
             }
         }
 
@@ -163,7 +174,7 @@ class RegistrationFragment: BaseFragment(),
 
     override fun showRegistrationError(msg: String?) {
         next.isEnabled = true
-        Toast.makeText(context, "Error message: $msg", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
     }
 
     override fun showRegistrationSuccess(dto: OtpResponse) {
@@ -172,7 +183,7 @@ class RegistrationFragment: BaseFragment(),
     }
 
     override fun onGetCitiesError(msg: String?) {
-        Toast.makeText(context, "Error message: $msg", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
     }
 
     override fun onGetCitiesSuccess(cities: List<City>) {
@@ -186,6 +197,11 @@ class RegistrationFragment: BaseFragment(),
             showCustomDialog(cityList, cityName.value.editText)
             adapter?.notifyDataSetChanged()
         }
+    }
+
+    override fun openLoginFragment(msg: String?) {
+        Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
+        replaceFragment(R.id.fragment_container, LoginFragment.newInstance(), true)
     }
 
     companion object{

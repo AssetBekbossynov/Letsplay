@@ -36,11 +36,11 @@ class MainActivity : BaseActivity() {
         botNav.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.act_profile -> {
-                    replaceFragment(R.id.fragment_container, ProfileFragment.newInstance(), false)
+                    addFragment(R.id.fragment_container, ProfileFragment.newInstance(), false)
                     supportActionBar?.title = getString(R.string.profile)
                 }
                 R.id.act_home -> {
-                    replaceFragment(R.id.fragment_container, HomeFragment.newInstance(), false)
+                    addFragment(R.id.fragment_container, HomeFragment.newInstance(), false)
                     supportActionBar?.title = getString(R.string.home)
                 }
             }

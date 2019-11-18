@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Letsplay</string>
+    <string name="app_name" translatable="false">Letsplay</string>
 
     <string name="registration">Registration</string>
     <string name="phone_number">Phone number</string>
@@ -11,7 +11,7 @@
     <string name="select_city">Select city</string>
     <string name="search">Search</string>
     <string name="cancel">Cancel</string>
-    <string name="ok">OK</string>
+    <string name="ok" translatable="false">OK</string>
 
     <string name="confirm">Confirm</string>
     <string name="phone_verification">Phone verification</string>
@@ -43,8 +43,13 @@
     <string name="save">Save</string>
     <string name="edit">Edit</string>
 
-    <string name="profile_full_name">%s %s %s</string>
-    <string name="profile_gender_age">%s %s</string>
+    <string name="profile_full_name" translatable="false">%s %s %s</string>
+    <string name="profile_gender_age" translatable="false">%s %s</string>
+
+    <string name="field_must_not_be_empty">Fields must not be empty</string>
+    <string name="choose_from_gallery">Choose from Gallery</string>
+    <string name="take_photo">Take photo</string>
+    <string name="choose_photo">Choose your profile picture</string>
 
     <string-array name="gender">
         <item>Male</item>

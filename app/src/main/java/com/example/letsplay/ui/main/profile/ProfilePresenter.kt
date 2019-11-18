@@ -1,5 +1,6 @@
 package com.example.letsplay.ui.main.profile
 
+import com.example.letsplay.enitity.common.ImageBody
 import com.example.letsplay.helper.UseCaseResult
 import com.example.letsplay.repository.ProfileRepository
 import kotlinx.coroutines.CoroutineScope
@@ -12,6 +13,22 @@ class ProfilePresenter(override var view: ProfileContract.View?,
                        override val coroutineContext: CoroutineContext,
                        private val profileRep: ProfileRepository) :
     ProfileContract.Presenter, CoroutineScope{
+
+    override fun uploadPhoto(imageBody: ImageBody) {
+        launch {
+            val result = withContext(Dispatchers.IO){
+                profileRep.uploadPhoto(imageBody)
+            }
+            when(result){
+                is UseCaseResult.Success -> {
+                    view?.onPhotoUploadSuccess(result.data)
+                }
+                is UseCaseResult.Error -> {
+                    view?.onPhotoUploadError(result.error?.message)
+                }
+            }
+        }
+    }
 
     override fun getUser() {
         launch {

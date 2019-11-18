@@ -9,6 +9,7 @@ interface RegistrationContract {
     interface View: BaseView<Presenter>{
         fun showRegistrationError(msg: String?)
         fun showRegistrationSuccess(dto: OtpResponse)
+        fun openLoginFragment(msg: String?)
         fun onGetCitiesError(msg: String?)
         fun onGetCitiesSuccess(cities: List<City>)
     }

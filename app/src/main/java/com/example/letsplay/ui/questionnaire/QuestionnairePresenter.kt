@@ -17,10 +17,10 @@ class QuestionnairePresenter(private val authRep: AuthRepository,
                              override var view: QuestionnaireContract.View?) :
     QuestionnaireContract.Presenter, CoroutineScope {
 
-    override fun updateUser(userUpdateRequest: UserUpdateRequest) {
+    override fun completeUser(userUpdateRequest: UserUpdateRequest) {
         launch {
             val result = withContext(Dispatchers.IO){
-                profileRep.updateUser(userUpdateRequest)
+                profileRep.completeUser(userUpdateRequest)
             }
             when(result){
                 is UseCaseResult.Success -> {

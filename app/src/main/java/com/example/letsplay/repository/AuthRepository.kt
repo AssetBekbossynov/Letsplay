@@ -109,7 +109,9 @@ class AuthRepositoryImpl(private val service: AuthService, private val localStor
     override suspend fun login(login: Login): UseCaseResult<Response<UserDto>> {
         return try {
             val task = service.login("application/json", login)
-            localStorage.setToken(task.headers().get("X-Auth-Token")!!)
+            task.headers().get("X-Auth-Token")?.let {
+                localStorage.setToken(it)
+            }
             UseCaseResult.Success(task)
         } catch (ex: Exception){
             when(ex) {
@@ -129,8 +131,8 @@ class AuthRepositoryImpl(private val service: AuthService, private val localStor
     private fun convertErrorBody(throwable: HttpException): ResponseError? {
         return try {
             val jObjError = JSONObject(throwable.response()?.errorBody()?.string())
-            Logger.msg("here1 " + jObjError.getString("message"))
-            val error = ResponseError(jObjError.getString("message"), jObjError.getString("status"))
+            Logger.msg("here1 " + jObjError.getString("status"))
+            val error = ResponseError(jObjError.getString("message"), jObjError.getString("status").toInt())
             error
         } catch (exception: JsonSyntaxException) {
             null

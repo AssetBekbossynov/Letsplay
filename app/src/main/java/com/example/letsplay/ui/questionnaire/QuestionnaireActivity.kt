@@ -38,7 +38,6 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
     internal var builder: MaterialAlertDialogBuilder? = null
     internal var dialogView: View? = null
     internal var adapter: DialogListAdapter? = null
-    internal var context: Context? = null
 
     internal lateinit var cityList: ArrayList<String>
     internal lateinit var cityCodeList: ArrayList<String>
@@ -75,15 +74,14 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
                     name.value.editText?.text.toString(),
                     surname.value.editText?.text.toString(),
                     nickname.value.editText?.text.toString())
-                presenter.updateUser(userUpdateRequest)
-                Toast.makeText(this, "will be saved", Toast.LENGTH_LONG).show()
+                presenter.completeUser(userUpdateRequest)
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onGetCitiesError(msg: String?) {
-        Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "$msg", Toast.LENGTH_LONG).show()
     }
 
     override fun onGetCitiesSuccess(cities: List<City>) {
@@ -104,7 +102,7 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
     }
 
     override fun onUserUpdateError(msg: String?) {
-        Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "$msg", Toast.LENGTH_LONG).show()
     }
 
     private fun initializeViews(){

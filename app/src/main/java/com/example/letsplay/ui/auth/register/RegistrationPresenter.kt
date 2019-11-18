@@ -2,6 +2,7 @@ package com.example.letsplay.ui.auth.register
 
 import com.example.letsplay.enitity.auth.UserRequest
 import com.example.letsplay.enitity.common.City
+import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.UseCaseResult
 import com.example.letsplay.repository.AuthRepository
 import kotlinx.coroutines.*
@@ -21,7 +22,11 @@ class RegistrationPresenter(private val authRep: AuthRepository,
             when(result){
                 is UseCaseResult.Success -> view?.showRegistrationSuccess(result.data)
                 is UseCaseResult.Error -> {
-                    view?.showRegistrationError(result.error?.message)
+                    if (result.error?.status == 409){
+                        view?.openLoginFragment(result.error.message)
+                    }else {
+                        view?.showRegistrationError(result.error?.message)
+                    }
                 }
             }
         }

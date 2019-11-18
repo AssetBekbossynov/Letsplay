@@ -26,6 +26,7 @@ abstract class BaseActivity : AppCompatActivity() {
     private var currentDialog: AlertDialog? = null
 
     private var dialog: AlertDialog? = null
+    private var active: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -271,6 +272,17 @@ abstract class BaseActivity : AppCompatActivity() {
             commit()
         }
         supportFragmentManager.executePendingTransactions()
+    }
+
+    fun showFragment(fragment: Fragment){
+        active = fragment
+        active?.let {
+            supportFragmentManager.beginTransaction().apply {
+                hide(active!!)
+                show(fragment)
+                commit()
+            }
+        }
     }
 
     private fun hideKeyboard() {
