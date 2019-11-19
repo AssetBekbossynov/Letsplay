@@ -12,10 +12,13 @@ interface ProfileContract {
         fun onGetUserError(msg: String?)
         fun onPhotoUploadSuccess(photoDto: PhotoDto)
         fun onPhotoUploadError(msg: String?)
+        fun onGetImageSuccess(photoDto: PhotoDto)
+        fun onGetImageError(msg: String?)
     }
 
     interface Presenter: BasePresenter<View>{
         fun getUser()
+        fun getPhoto(imageId: Int)
         fun uploadPhoto(imageBody: ImageBody)
     }
 }

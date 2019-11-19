@@ -22,9 +22,32 @@ interface ProfileRepository {
     suspend fun completeUser(userUpdateRequest: UserUpdateRequest): UseCaseResult<UserDto>?
     suspend fun getUser(): UseCaseResult<UserDto>?
     suspend fun uploadPhoto(imageBody: ImageBody): UseCaseResult<PhotoDto>?
+    suspend fun getPhoto(imageId: Int): UseCaseResult<PhotoDto>?
 }
 
 class ProfileRepositoryImpl(private val service: ProfileService, private val localStorage: LocalStorage): ProfileRepository {
+
+    override suspend fun getPhoto(imageId: Int): UseCaseResult<PhotoDto>? {
+        return localStorage.getToken()?.let {
+            try {
+                val task = service.getPhoto("application/json", it, imageId)
+                UseCaseResult.Success(task)
+            }catch (ex: Exception){
+                when(ex) {
+                    is IOException -> {
+                        UseCaseResult.Error(ex as IOException)
+                    }
+                    is HttpException -> {
+                        UseCaseResult.Error(error = convertErrorBody(ex))
+                    }
+                    else -> {
+                        UseCaseResult.Error(ex)
+                    }
+                }
+            }
+        }
+    }
+
     override suspend fun uploadPhoto(imageBody: ImageBody): UseCaseResult<PhotoDto>? {
         return localStorage.getToken()?.let {
             try {

@@ -14,6 +14,8 @@ import com.example.letsplay.ui.auth.otp.OtpCheckContract
 import com.example.letsplay.ui.auth.otp.OtpCheckPresenter
 import com.example.letsplay.ui.auth.register.RegistrationContract
 import com.example.letsplay.ui.auth.register.RegistrationPresenter
+import com.example.letsplay.ui.main.MainContract
+import com.example.letsplay.ui.main.profile.MainPresenter
 import com.example.letsplay.ui.main.profile.ProfileContract
 import com.example.letsplay.ui.main.profile.ProfilePresenter
 import com.example.letsplay.ui.questionnaire.QuestionnaireContract
@@ -51,6 +53,7 @@ val appModule = module {
     factory { (view: LoginContract.View) -> LoginPresenter(
         get(),
         get(),
+        get(),
         view
     ) as LoginContract.Presenter }
 
@@ -66,6 +69,12 @@ val appModule = module {
         get(),
         get()
     ) as ProfileContract.Presenter }
+
+    factory { (view: MainContract.View) -> MainPresenter(
+        view,
+        get(),
+        get()
+    ) as MainContract.Presenter }
 
     factory<AuthRepository> { AuthRepositoryImpl(service = get(), localStorage = get()) }
     factory<ProfileRepository> { ProfileRepositoryImpl(service = get(), localStorage = get()) }

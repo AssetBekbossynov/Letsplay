@@ -107,25 +107,22 @@ class AuthRepositoryImpl(private val service: AuthService, private val localStor
     }
 
     override suspend fun login(login: Login): UseCaseResult<Response<UserDto>> {
-        return try {
             val task = service.login("application/json", login)
-            task.headers().get("X-Auth-Token")?.let {
-                localStorage.setToken(it)
+            if (task.isSuccessful){
+                return UseCaseResult.Success(task)
+            }else{
+                try {
+                    val jObjError = JSONObject(task.errorBody()?.string())
+                    Logger.msg("here1 " + jObjError.getString("status"))
+                    val error = ResponseError(
+                        jObjError.getString("message"),
+                        jObjError.getString("status").toInt()
+                    )
+                    return UseCaseResult.Error(error = error)
+                }catch (exception: JsonSyntaxException) {
+                    return UseCaseResult.Error(error = ResponseError("Unknown Error", 300))
+                }
             }
-            UseCaseResult.Success(task)
-        } catch (ex: Exception){
-            when(ex) {
-                is IOException -> {
-                    UseCaseResult.Error(ex as IOException)
-                }
-                is HttpException -> {
-                    UseCaseResult.Error(error = convertErrorBody(ex))
-                }
-                else -> {
-                    UseCaseResult.Error(ex)
-                }
-            }
-        }
     }
 
     private fun convertErrorBody(throwable: HttpException): ResponseError? {

@@ -1,11 +1,8 @@
 package com.example.letsplay.ui.questionnaire
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -21,6 +18,7 @@ import com.example.letsplay.helper.DialogListAdapter
 import com.example.letsplay.helper.utility.visible
 import com.example.letsplay.ui.common.BaseActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_questionnaire.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
 import kotlinx.android.synthetic.main.table_cell_optional.view.*
@@ -34,6 +32,10 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
 
     override val presenter: QuestionnaireContract.Presenter by inject { parametersOf(this) }
 
+    private var nicknameFilled = false
+    private var genderFilled = false
+    private var cityNameFilled = false
+
     internal var dialog: AlertDialog? = null
     internal var builder: MaterialAlertDialogBuilder? = null
     internal var dialogView: View? = null
@@ -45,7 +47,7 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
 
     internal var cityCode: String? = null
 
-    lateinit var userDtoOld: UserDto
+    var userDtoOld: UserDto? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,30 +57,33 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
 
         userDtoOld = intent.getParcelableExtra(ConstantsExtra.USER_DTO)
 
-        initializeViews()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        menu?.findItem(R.id.act_save)?.isVisible = true
-
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.act_save -> {
-                val userUpdateRequest = UserUpdateRequest(dateOfBirth.value.editText?.text.toString(),
+        save.setOnClickListener {
+            val userUpdateRequest = UserUpdateRequest(dateOfBirth.value.editText?.text.toString(),
                     gender.value.editText?.text.toString().toUpperCase(),
                     cityCode!!,
                     name.value.editText?.text.toString(),
                     surname.value.editText?.text.toString(),
                     nickname.value.editText?.text.toString())
                 presenter.completeUser(userUpdateRequest)
-            }
         }
-        return super.onOptionsItemSelected(item)
+
+        initializeViews()
     }
+
+//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+//        when (item?.itemId) {
+//            R.id.act_save -> {
+//                val userUpdateRequest = UserUpdateRequest(dateOfBirth.value.editText?.text.toString(),
+//                    gender.value.editText?.text.toString().toUpperCase(),
+//                    cityCode!!,
+//                    name.value.editText?.text.toString(),
+//                    surname.value.editText?.text.toString(),
+//                    nickname.value.editText?.text.toString())
+//                presenter.completeUser(userUpdateRequest)
+//            }
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 
     override fun onGetCitiesError(msg: String?) {
         Toast.makeText(this, "$msg", Toast.LENGTH_LONG).show()
@@ -105,6 +110,14 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
         Toast.makeText(this, "$msg", Toast.LENGTH_LONG).show()
     }
 
+    fun getFieldsStatus(): Boolean {
+        return nicknameFilled && genderFilled && cityNameFilled
+    }
+
+    private fun enableButton(){
+        save.isEnabled = getFieldsStatus()
+    }
+
     private fun initializeViews(){
         nickname.value.hint = getString(R.string.nickname)
         name.value.hint = getString(R.string.name)
@@ -128,6 +141,11 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
 
         createCustomDialog()
 
+        val watcher = SingleWatcher()
+        nickname.value.editText?.addTextChangedListener(watcher)
+        gender.value.editText?.addTextChangedListener(watcher)
+        city.value.editText?.addTextChangedListener(watcher)
+
         gender.value.editText?.setOnClickListener {
             selectGender()
 
@@ -141,10 +159,10 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
             selectCity()
         }
 
-        userDtoOld.cityName.let {
+        userDtoOld?.cityName.let {
             city.value.editText?.setText(it)
         }
-        userDtoOld.cityCode.let {
+        userDtoOld?.cityCode.let {
             cityCode = it
         }
     }
@@ -220,6 +238,28 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
             dialogView?.progress_bar!!.visibility = View.VISIBLE
         }
         dialog?.show()
+    }
+
+    private inner class SingleWatcher : TextWatcher {
+        override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, after: Int) {}
+        override fun onTextChanged(charSequence: CharSequence, i: Int, before: Int, i2: Int) {}
+        override fun afterTextChanged(editable: Editable) {
+            if (isEqual(nickname.value, editable)) {
+                nicknameFilled = true
+            } else if (isEqual(gender.value, editable)) {
+                genderFilled = true
+            } else if (isEqual(city.value, editable)) {
+                cityNameFilled = true
+            }
+            if(emptyField(nickname.value)){ nicknameFilled = false }
+            if(emptyField(gender.value)){ genderFilled = false }
+            if(emptyField(city.value)){ cityNameFilled = false }
+            enableButton()
+        }
+
+        private fun isEqual(input: TextInputLayout, value: Editable): Boolean {
+            return input.editText?.text?.hashCode() == value.hashCode()
+        }
     }
 }
 

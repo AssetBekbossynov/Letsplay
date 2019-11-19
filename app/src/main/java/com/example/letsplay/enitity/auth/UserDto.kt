@@ -15,6 +15,9 @@ data class UserDto(@SerializedName("avatarPhotoId") val avatarPhotoId: Int?,
                    @SerializedName("nickname") val nickname: String?,
                    @SerializedName("phoneNumber") val phoneNumber: String?,
                    @SerializedName("status") val status: String?,
+                   @SerializedName("activeGames") val activeGames: Int?,
+                   @SerializedName("completedGames") val completedGames: Int?,
+                   @SerializedName("numberOfFriends") val numberOfFriends: Int?,
                    @SerializedName("userPhotos") val userPhotos: List<PhotoDto>) : Parcelable
 /*
 {

@@ -23,24 +23,17 @@ import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import java.io.File
 import android.graphics.Bitmap
+import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.utility.BitmapUtility
 
 class ProfileFragment : BaseFragment(), ProfileContract.View{
 
     private val GALLERY_REQUEST_CODE = 123
+    private var imageId: Int = -1
 
     companion object{
-
-//        private var profileFragment: ProfileFragment? = null
-
         fun newInstance(): ProfileFragment{
             return ProfileFragment()
-//            if (profileFragment != null){
-//                return profileFragment!!
-//            }else{
-//                profileFragment = ProfileFragment()
-//                return profileFragment!!
-//            }
         }
     }
 
@@ -56,8 +49,6 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        presenter.getUser()
 
         profilePhoto.setOnClickListener {
 
@@ -86,6 +77,7 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
 
     override fun onResume() {
         super.onResume()
+        presenter.getUser()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -148,11 +140,25 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
         }
         region.text = userDto.cityName
 
+        for (i in userDto.userPhotos.indices){
+            if (userDto.userPhotos.get(i).avatar!!){
+                Logger.msg("here1")
+                imageId = userDto.userPhotos.get(i).id!!
+            }
+        }
+
         if (userDto.dateOfBirth != null){
+            Logger.msg("here2true")
 
         }else{
+            Logger.msg("here2")
             genderAge.text = userDto.gender
         }
+
+        if (imageId != -1){
+            presenter.getPhoto(imageId)
+        }
+
 
     }
 
@@ -160,4 +166,11 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
         Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
     }
 
+    override fun onGetImageSuccess(photoDto: PhotoDto) {
+//        Picasso.with(context).load()
+    }
+
+    override fun onGetImageError(msg: String?) {
+        Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
+    }
 }

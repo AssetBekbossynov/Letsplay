@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.letsplay.R
 import com.example.letsplay.helper.utility.visible
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.toolbar.view.*
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -95,6 +96,10 @@ abstract class BaseActivity : AppCompatActivity() {
             }
         }
         dialog?.show()
+    }
+
+    protected fun emptyField(tl: TextInputLayout) : Boolean{
+        return tl.editText?.text.toString().trim().isEmpty()
     }
 
 //    private fun showProgressLayout(hintMessage: String) {
