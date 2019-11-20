@@ -3,7 +3,6 @@ package com.example.letsplay.ui.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import androidx.appcompat.widget.Toolbar
 import com.example.letsplay.R
 import com.example.letsplay.enitity.auth.UserDto
@@ -60,24 +59,12 @@ class MainActivity : BaseActivity(), MainContract.View {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.apply {
-            findItem(R.id.act_edit)?.apply {
-                setIcon(R.drawable.ic_edit)
-            }
-        }
-        return true
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 123){
             replaceFragment(R.id.fragment_container, ProfileFragment.newInstance(), false)
+        }else if (resultCode == Activity.RESULT_CANCELED){
+            finish()
         }
     }
 

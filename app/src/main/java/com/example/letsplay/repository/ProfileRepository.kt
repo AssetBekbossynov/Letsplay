@@ -1,5 +1,7 @@
 package com.example.letsplay.repository
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import com.example.letsplay.enitity.ResponseError
 import com.example.letsplay.enitity.auth.PhotoDto
 import com.example.letsplay.enitity.auth.UserDto
@@ -15,6 +17,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.HttpException
+import retrofit2.Response
 import java.io.File
 import java.io.IOException
 
@@ -22,17 +25,20 @@ interface ProfileRepository {
     suspend fun completeUser(userUpdateRequest: UserUpdateRequest): UseCaseResult<UserDto>?
     suspend fun getUser(): UseCaseResult<UserDto>?
     suspend fun uploadPhoto(imageBody: ImageBody): UseCaseResult<PhotoDto>?
-    suspend fun getPhoto(imageId: Int): UseCaseResult<PhotoDto>?
+    suspend fun getPhoto(imageId: Int): UseCaseResult<Any>?
 }
 
 class ProfileRepositoryImpl(private val service: ProfileService, private val localStorage: LocalStorage): ProfileRepository {
 
-    override suspend fun getPhoto(imageId: Int): UseCaseResult<PhotoDto>? {
+    override suspend fun getPhoto(imageId: Int): UseCaseResult<Any>? {
         return localStorage.getToken()?.let {
             try {
-                val task = service.getPhoto("application/json", it, imageId)
-                UseCaseResult.Success(task)
+                val input = java.net.URL("https://almatyapp.herokuapp.com/api/user/image/5").openStream()
+                val bitmap = BitmapFactory.decodeStream(input)
+//                val task = service.getPhoto(it, imageId)
+                UseCaseResult.Success(bitmap)
             }catch (ex: Exception){
+                Logger.msg("photo " + ex.message)
                 when(ex) {
                     is IOException -> {
                         UseCaseResult.Error(ex as IOException)
@@ -41,6 +47,7 @@ class ProfileRepositoryImpl(private val service: ProfileService, private val loc
                         UseCaseResult.Error(error = convertErrorBody(ex))
                     }
                     else -> {
+                        Logger.msg("Unknown Error")
                         UseCaseResult.Error(ex)
                     }
                 }
@@ -51,9 +58,10 @@ class ProfileRepositoryImpl(private val service: ProfileService, private val loc
     override suspend fun uploadPhoto(imageBody: ImageBody): UseCaseResult<PhotoDto>? {
         return localStorage.getToken()?.let {
             try {
-                val task = service.uploadPhoto("application/json", it, create(imageBody))
+                val task = service.uploadPhoto(it, create(imageBody))
                 UseCaseResult.Success(task)
             }catch (ex: Exception){
+                Logger.msg("erro " + ex.message)
                 when(ex) {
                     is IOException -> {
                         UseCaseResult.Error(ex as IOException)
@@ -114,7 +122,6 @@ class ProfileRepositoryImpl(private val service: ProfileService, private val loc
     private fun convertErrorBody(throwable: HttpException): ResponseError? {
         return try {
             val jObjError = JSONObject(throwable.response()?.errorBody()?.string())
-            Logger.msg("here1 " + jObjError.getString("status"))
             val error = ResponseError(jObjError.getString("message"), jObjError.getString("status").toInt())
             error
         } catch (exception: JsonSyntaxException) {

@@ -4,6 +4,7 @@ import com.example.letsplay.enitity.auth.PhotoDto
 import com.example.letsplay.enitity.auth.UserDto
 import com.example.letsplay.enitity.profile.UserUpdateRequest
 import okhttp3.MultipartBody
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ProfileService {
@@ -21,13 +22,12 @@ interface ProfileService {
     suspend fun getUser(@Header("Content-Type") contentType: String,
                         @Header("Authorization") token: String): UserDto
 
+    @Multipart
     @POST("api/user/image")
-    suspend fun uploadPhoto(@Header("Content-Type") contentType: String,
-                            @Header("Authorization") token: String,
+    suspend fun uploadPhoto(@Header("Authorization") token: String,
                             @Part file: MultipartBody.Part): PhotoDto
 
     @GET("api/user/image/{imageId}")
-    suspend fun getPhoto(@Header("Content-Type") contentType: String,
-                         @Header("Authorization") token: String,
-                         @Path("imageId") imageId: Int): PhotoDto
+    suspend fun getPhoto(@Header("Authorization") token: String,
+                         @Path("imageId") imageId: Int)
 }

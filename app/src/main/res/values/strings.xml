@@ -44,13 +44,19 @@
     <string name="edit">Edit</string>
 
     <string name="profile_full_name" translatable="false">%s %s %s</string>
-    <string name="profile_gender_age" translatable="false">%s %s</string>
+    <plurals name="profile_gender_age">
+        <item quantity="one" formatted="true">%s, %s years</item>
+        <item quantity="few" formatted="true">%s, %s years</item>
+        <item quantity="many" formatted="true">%s, %s years</item>
+        <item quantity="other" formatted="true">%s, %s years</item>
+    </plurals>
 
     <string name="field_must_not_be_empty">Fields must not be empty</string>
     <string name="choose_from_gallery">Choose from Gallery</string>
     <string name="take_photo">Take photo</string>
     <string name="choose_photo">Choose your profile picture</string>
     <string name="registration_success">You successfully registered. Now you can login into the system with your phone number</string>
+    <string name="enter_code">Please enter code from SMS</string>
 
 
     <string-array name="gender">

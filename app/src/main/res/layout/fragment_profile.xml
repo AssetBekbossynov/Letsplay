@@ -20,7 +20,8 @@
         android:id="@+id/name"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        tools:text="Name nickname surname"
+        tools:text="Name surname"
+        android:visibility="gone"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:layout_marginStart="16dp"
@@ -28,19 +29,32 @@
         app:layout_constraintTop_toTopOf="@id/profilePhoto"/>
 
     <TextView
+        android:id="@+id/nickname"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        tools:text="nickname"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/profilePhoto"
+        app:layout_constraintTop_toBottomOf="@id/name"/>
+
+    <TextView
         android:id="@+id/region"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         tools:text="Almaty, Kazakhstan"
-        app:layout_constraintStart_toStartOf="@id/name"
-        app:layout_constraintTop_toBottomOf="@id/name"/>
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/profilePhoto"
+        app:layout_constraintTop_toBottomOf="@id/nickname"/>
 
     <TextView
         android:id="@+id/genderAge"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         tools:text="Male, 22 years"
-        app:layout_constraintStart_toStartOf="@id/name"
-        app:layout_constraintBottom_toBottomOf="@id/profilePhoto"/>
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/profilePhoto"
+        app:layout_constraintTop_toBottomOf="@id/region"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

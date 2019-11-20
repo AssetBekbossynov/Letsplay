@@ -70,21 +70,6 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
         initializeViews()
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-//        when (item?.itemId) {
-//            R.id.act_save -> {
-//                val userUpdateRequest = UserUpdateRequest(dateOfBirth.value.editText?.text.toString(),
-//                    gender.value.editText?.text.toString().toUpperCase(),
-//                    cityCode!!,
-//                    name.value.editText?.text.toString(),
-//                    surname.value.editText?.text.toString(),
-//                    nickname.value.editText?.text.toString())
-//                presenter.completeUser(userUpdateRequest)
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
-
     override fun onGetCitiesError(msg: String?) {
         Toast.makeText(this, "$msg", Toast.LENGTH_LONG).show()
     }
@@ -159,6 +144,21 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
             selectCity()
         }
 
+        userDtoOld?.nickname.let {
+            nickname.value.editText?.setText(it)
+        }
+        userDtoOld?.lastName.let {
+            surname.value.editText?.setText(it)
+        }
+        userDtoOld?.firstName.let {
+            name.value.editText?.setText(it)
+        }
+        userDtoOld?.gender.let {
+            gender.value.editText?.setText(it)
+        }
+        userDtoOld?.dateOfBirth.let {
+            dateOfBirth.value.editText?.setText(it)
+        }
         userDtoOld?.cityName.let {
             city.value.editText?.setText(it)
         }
@@ -261,8 +261,4 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
             return input.editText?.text?.hashCode() == value.hashCode()
         }
     }
-}
-
-interface OnItemClick {
-    fun show()
 }

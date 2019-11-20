@@ -15,6 +15,7 @@ import com.example.letsplay.ui.common.BaseFragment
 import com.example.letsplay.R
 import com.example.letsplay.enitity.auth.OtpResponse
 import com.example.letsplay.helper.ConstantsExtra
+import com.example.letsplay.helper.utility.gone
 import com.example.letsplay.ui.auth.AuthActivity
 import com.example.letsplay.ui.auth.ContentChangedListener
 import com.example.letsplay.ui.auth.login.LoginFragment
@@ -62,6 +63,11 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
         return inflater.inflate(R.layout.otp_check_fragment, container, false)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        handler.removeCallbacks(counter)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -93,6 +99,7 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
         }
 
         resend.setOnClickListener {
+            resend.gone()
             if (allowReset != 0){
                 presenter.resendCode(phoneNumber!!)
                 allowReset =-1
@@ -110,6 +117,7 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
 
     override fun onResendSuccess() {
         seconds = arguments?.getParcelable<OtpResponse>(ConstantsExtra.OTP_RESPONSE)?.expiresIn!! * 60
+        handler.postDelayed(counter, 0)
         Toast.makeText(context, getString(R.string.resend_success), Toast.LENGTH_LONG).show()
     }
 
@@ -119,7 +127,6 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
 
     override fun onUserActivationSuccess() {
         next.isEnabled = true
-        handler.removeCallbacks(counter)
         Toast.makeText(context, getString(R.string.registration_success), Toast.LENGTH_LONG).show()
         listener.onContentChange(LoginFragment.newInstance(), false)
     }
@@ -130,9 +137,15 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
     }
 
     private fun checkOtp(){
-        next.isEnabled = false
         otp = num1.text.toString() + num2.text.toString() + num3.text.toString() + num4.text.toString()
-        presenter.sendCode(phoneNumber!!, otp!!)
+        otp?.let {
+            if (it.length == 4){
+                next.isEnabled = false
+                presenter.sendCode(phoneNumber!!, it)
+            } else{
+                Toast.makeText(context, getString(R.string.enter_code), Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private inner class CustomWatcher: TextWatcher {

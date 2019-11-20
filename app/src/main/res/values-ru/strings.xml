@@ -19,7 +19,7 @@
     <string name="login">Вход в систему</string>
     <string name="name">Имя</string>
     <string name="next">Следующий шаг</string>
-    <string name="nickname">Никнейм</string>
+    <string name="nickname">Имя пользователя*</string>
     <string name="notification">Уведомления</string>
     <string name="password">Пароль</string>
     <string name="password_again">Пароль еще раз</string>
@@ -28,6 +28,12 @@
     <string name="phone_number">Номер телефона</string>
     <string name="phone_verification">Подтверждение телефона</string>
     <string name="profile">Профиль</string>
+    <plurals name="profile_gender_age">
+        <item quantity="one" formatted="true">%s, %s год</item>
+        <item quantity="few" formatted="true">%s, %s года</item>
+        <item quantity="many" formatted="true">%s, %s лет</item>
+        <item quantity="other" formatted="true">%s, %s лет</item>
+    </plurals>
     <string name="registration">Регистрация</string>
     <string name="resend">Переотправить</string>
     <string name="resend_sms_text">Отправить SMS код?</string>
@@ -37,5 +43,5 @@
     <string name="select_city">Выбрать город</string>
     <string name="surname">Фамилия</string>
     <string name="verification_text">Это поможет нам аутентифицировать каждого пользователя сервиса, для вашей собственной безопасности.</string>
-    <string name="field_must_not_be_empty">Поля не должны быть пустыми</string>
+    <string name="field_must_not_be_empty">Заполните все поля</string>
 </resources>

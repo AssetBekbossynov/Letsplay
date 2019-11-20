@@ -7,11 +7,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import com.example.letsplay.R
 import com.example.letsplay.enitity.auth.PhotoDto
 import com.example.letsplay.enitity.auth.UserDto
 import com.example.letsplay.enitity.common.ImageBody
@@ -23,13 +19,24 @@ import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import java.io.File
 import android.graphics.Bitmap
+import android.view.*
+import com.example.letsplay.R
+import com.example.letsplay.helper.ConstantsExtra
 import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.utility.BitmapUtility
+import com.example.letsplay.helper.utility.DateUtility
+import com.example.letsplay.helper.utility.gone
+import com.example.letsplay.helper.utility.visible
+import com.example.letsplay.ui.questionnaire.QuestionnaireActivity
+import java.util.*
+
 
 class ProfileFragment : BaseFragment(), ProfileContract.View{
 
     private val GALLERY_REQUEST_CODE = 123
     private var imageId: Int = -1
+
+    lateinit var userDto: UserDto
 
     companion object{
         fun newInstance(): ProfileFragment{
@@ -38,6 +45,11 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
     }
 
     override val presenter: ProfileContract.Presenter by inject { parametersOf(this) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,11 +99,12 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
                 0 -> if (resultCode == RESULT_OK && data != null) {
                     val selectedImage = data.extras?.get("data") as Bitmap
 
-                    val photoFile = File(activity!!.filesDir, "photo.jpg")
+                    val photoFile = File(activity!!.filesDir, "photo.png")
 
                     BitmapUtility.saveBitmapToFile(selectedImage, photoFile.absolutePath)
 
-                    val imageBody = ImageBody("jpg", photoFile.path)
+                    val imageBody = ImageBody("png", photoFile.path)
+                    Logger.msg("wtf gotoupload")
                     presenter.uploadPhoto(imageBody)
                     Picasso.with(context).load(photoFile)
                         .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
@@ -124,8 +137,34 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
         }
     }
 
-    override fun onPhotoUploadSuccess(photoDto: PhotoDto) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_menu, menu)
+    }
 
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.apply {
+            findItem(R.id.act_edit)?.apply {
+                setIcon(R.drawable.ic_edit)
+                isVisible = true
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.act_edit -> {
+                val intent = Intent(context, QuestionnaireActivity::class.java)
+                intent.putExtra(ConstantsExtra.USER_DTO, userDto)
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPhotoUploadSuccess(photoDto: PhotoDto) {
+        Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
     }
 
     override fun onPhotoUploadError(msg: String?) {
@@ -133,44 +172,77 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
     }
 
     override fun onGetUserSuccess(userDto: UserDto) {
-        if (!userDto.firstName.equals("") && !userDto.lastName.equals("")){
-            name.text = getString(R.string.profile_full_name, userDto.firstName, userDto.nickname, userDto.lastName)
-        }else{
-            name.text = userDto.nickname
+        this.userDto = userDto
+
+        var nameLabel = ""
+
+        if (!userDto.lastName.equals("")){
+            nameLabel = nameLabel + userDto.lastName
         }
+
+        if (!userDto.firstName.equals("")){
+            if (nameLabel.equals(""))
+                nameLabel = nameLabel + userDto.firstName
+            else
+                nameLabel = nameLabel + " " + userDto.firstName
+        }
+
+        if (nameLabel.equals("")){
+            name.gone()
+        }else{
+            name.visible()
+            name.text = nameLabel
+        }
+
+        nickname.text = userDto.nickname
+
         region.text = userDto.cityName
+
+        val age = getAge(DateUtility.stringToCalendar(DateUtility.getDashedYMDdateFormat(),
+            userDto.dateOfBirth), Calendar.getInstance())
+
+        if (userDto.dateOfBirth != null){
+            genderAge.text = resources.getQuantityString(R.plurals.profile_gender_age,
+                age.toInt(), userDto.gender, age)
+        }else{
+            genderAge.text = userDto.gender
+        }
 
         for (i in userDto.userPhotos.indices){
             if (userDto.userPhotos.get(i).avatar!!){
-                Logger.msg("here1")
                 imageId = userDto.userPhotos.get(i).id!!
             }
         }
 
-        if (userDto.dateOfBirth != null){
-            Logger.msg("here2true")
-
-        }else{
-            Logger.msg("here2")
-            genderAge.text = userDto.gender
-        }
-
-        if (imageId != -1){
-            presenter.getPhoto(imageId)
-        }
-
-
+//        if (imageId != -1){
+//            presenter.getPhoto(imageId)
+//        }
     }
 
     override fun onGetUserError(msg: String?) {
-        Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
+        msg?.let {
+            if (!msg.contains("INCOMPLETE_ACCOUNT"))
+                Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
+        }
     }
 
-    override fun onGetImageSuccess(photoDto: PhotoDto) {
-//        Picasso.with(context).load()
+    override fun onGetImageSuccess(bitmap: Bitmap) {
+        profilePhoto.setImageBitmap(bitmap)
     }
 
     override fun onGetImageError(msg: String?) {
         Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
+    }
+
+    private fun getAge(dob: Calendar, today: Calendar): String {
+        var age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR)
+
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+            age--
+        }
+
+        val ageInt = age
+
+        return ageInt.toString()
     }
 }

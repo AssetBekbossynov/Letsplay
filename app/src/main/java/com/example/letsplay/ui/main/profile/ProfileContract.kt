@@ -1,5 +1,6 @@
 package com.example.letsplay.ui.main.profile
 
+import android.graphics.Bitmap
 import com.example.letsplay.enitity.auth.PhotoDto
 import com.example.letsplay.enitity.auth.UserDto
 import com.example.letsplay.enitity.common.ImageBody
@@ -12,7 +13,7 @@ interface ProfileContract {
         fun onGetUserError(msg: String?)
         fun onPhotoUploadSuccess(photoDto: PhotoDto)
         fun onPhotoUploadError(msg: String?)
-        fun onGetImageSuccess(photoDto: PhotoDto)
+        fun onGetImageSuccess(bitmap: Bitmap)
         fun onGetImageError(msg: String?)
     }
 

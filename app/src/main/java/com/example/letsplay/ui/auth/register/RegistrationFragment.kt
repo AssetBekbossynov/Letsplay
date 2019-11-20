@@ -45,6 +45,10 @@ class RegistrationFragment: BaseFragment(),
     internal var cityCode: String? = null
     internal var phoneNumber: String? = null
 
+    private var phoneFilled = false
+    private var passwordFilled = false
+    private var cityNameFilled = false
+
     override val presenter: RegistrationContract.Presenter by inject { parametersOf(this) }
 
     private lateinit var listener: ContentChangedListener
@@ -88,9 +92,13 @@ class RegistrationFragment: BaseFragment(),
         editText.addTextChangedListener(maskedTextChangedListener)
         Selection.setSelection(editText.text, editText.text.toString().length);
 
+        val watcher = SingleWatcher()
+        phone.editText?.addTextChangedListener(watcher)
+        password.editText?.addTextChangedListener(watcher)
+        cityName.value.editText?.addTextChangedListener(watcher)
+
         next.setOnClickListener {
-            if (!cityName.value.editText?.text.toString().equals("") && phone.editText?.text.toString().length > 4 &&
-                    !password.editText?.text.toString().equals("")){
+            if (fieldsFilled()){
                 if (password.editText?.text.toString().equals(password_again.editText?.text.toString())){
                     next.isEnabled = false
                     presenter.createUser(cityCode, password.editText?.text.toString(), phoneNumber)
@@ -111,6 +119,20 @@ class RegistrationFragment: BaseFragment(),
         password.editText?.setText("Test1234!")
         password_again.editText?.setText("Test1234!")
 
+    }
+
+    private fun fieldsFilled() : Boolean{
+        if (!phoneFilled) {
+            gotoErrorField(phone)
+            return false
+        } else if (!passwordFilled) {
+            gotoErrorField(password)
+            return false
+        } else if (!cityNameFilled) {
+            gotoErrorField(cityName.value)
+            return false
+        }
+        return true
     }
 
     private fun selectCity() {
@@ -201,12 +223,35 @@ class RegistrationFragment: BaseFragment(),
 
     override fun openLoginFragment(msg: String?) {
         Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
-        replaceFragment(R.id.fragment_container, LoginFragment.newInstance(), true)
+        replaceFragment(R.id.fragment_container, LoginFragment.newInstance(phoneNumber), true)
     }
 
     companion object{
         fun newInstance(): RegistrationFragment {
             return RegistrationFragment()
+        }
+    }
+
+    private inner class SingleWatcher : TextWatcher {
+        override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, after: Int) {}
+        override fun onTextChanged(charSequence: CharSequence, i: Int, before: Int, i2: Int) {}
+        override fun afterTextChanged(editable: Editable) {
+            if (isEqual(phone, editable)) {
+                if (phone.editText?.text.toString().length > 4){
+                    phoneFilled = true
+                }
+            } else if (isEqual(password, editable)) {
+                passwordFilled = true
+            } else if (isEqual(cityName.value, editable)) {
+                cityNameFilled = true
+            }
+            if(phone.editText?.text.toString().length < 5){ phoneFilled = false }
+            if(emptyField(password)){ passwordFilled = false }
+            if(emptyField(cityName.value)){ cityNameFilled = false }
+        }
+
+        private fun isEqual(input: TextInputLayout, value: Editable): Boolean {
+            return input.editText?.text?.hashCode() == value.hashCode()
         }
     }
 }

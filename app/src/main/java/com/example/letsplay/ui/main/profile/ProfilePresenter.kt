@@ -1,5 +1,6 @@
 package com.example.letsplay.ui.main.profile
 
+import android.graphics.Bitmap
 import com.example.letsplay.enitity.common.ImageBody
 import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.UseCaseResult
@@ -18,12 +19,11 @@ class ProfilePresenter(override var view: ProfileContract.View?,
     override fun getPhoto(imageId: Int) {
         launch {
             val result = withContext(Dispatchers.IO){
-                Logger.msg("here ")
                 profileRep.getPhoto(imageId)
             }
             when(result){
                 is UseCaseResult.Success -> {
-                    view?.onGetImageSuccess(result.data)
+                    view?.onGetImageSuccess(result.data as Bitmap)
                 }
                 is UseCaseResult.Error -> {
                     view?.onGetImageError(result.error?.message)
@@ -35,7 +35,7 @@ class ProfilePresenter(override var view: ProfileContract.View?,
     override fun uploadPhoto(imageBody: ImageBody) {
         launch {
             val result = withContext(Dispatchers.IO){
-                Logger.msg("here ")
+                Logger.msg("here " + imageBody)
                 profileRep.uploadPhoto(imageBody)
             }
             when(result){

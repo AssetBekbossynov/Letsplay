@@ -14,7 +14,6 @@ import com.example.letsplay.helper.Logger
 import com.example.letsplay.ui.auth.AuthActivity
 import com.example.letsplay.ui.auth.ContentChangedListener
 import com.example.letsplay.ui.auth.forgot.ForgotPasswordFragment
-import com.example.letsplay.ui.questionnaire.QuestionnaireActivity
 import com.example.letsplay.ui.common.BaseFragment
 import com.example.letsplay.ui.main.MainActivity
 import com.redmadrobot.inputmask.MaskedTextChangedListener
@@ -33,8 +32,12 @@ class LoginFragment : BaseFragment(), LoginContract.View{
     internal var phoneNumber: String? = null
 
     companion object{
-        fun newInstance(): LoginFragment {
-            return LoginFragment()
+        fun newInstance(phoneNumber: String? = null): LoginFragment {
+            val fragment = LoginFragment()
+            val args = Bundle()
+            args.putString(ConstantsExtra.PHONE_NUMBER, phoneNumber)
+            fragment.arguments = args
+            return fragment
         }
     }
 
@@ -68,6 +71,10 @@ class LoginFragment : BaseFragment(), LoginContract.View{
         )
         editText.addTextChangedListener(maskedTextChangedListener)
 
+        arguments?.getString(ConstantsExtra.PHONE_NUMBER)?.let {
+            phone.editText?.setText(it)
+        }
+
         (activity as AuthActivity).progress.progress = 0
 
         forgot_password.setOnClickListener {
@@ -75,7 +82,7 @@ class LoginFragment : BaseFragment(), LoginContract.View{
         }
 
         login.setOnClickListener {
-            if (phoneNumber != null && !password.editText?.text.toString().equals("null")){
+            if (phoneNumber!!.length > 1 && !password.editText?.text.toString().equals("")){
                 login.isEnabled = false
                 presenter.login(phoneNumber!!, password.editText?.text.toString())
             }else{

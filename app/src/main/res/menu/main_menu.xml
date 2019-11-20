@@ -9,13 +9,6 @@
         android:title="@string/edit"
         android:visible="false"/>
 
-    <item
-        android:id="@+id/act_save"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_save"
-        android:title="@string/save"
-        android:visible="false"/>
-
 <!--    <item-->
 <!--        android:id="@+id/act_settings"-->
 <!--        app:showAsAction="ifRoom"-->
