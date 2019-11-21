@@ -53,4 +53,7 @@
     <string name="played_match_date">Последний матч сыгран %s</string>
     <string name="rating">Рейтинг</string>
     <string name="registration_success">Вы успешно зарегистрировались. Теперь можно войти в систему с помощью номера телефона</string>
+    <string name="friend_request">Запрос в друзья</string>
+    <string name="add_friend">Добавить в друзья</string>
+    <string name="cancel_request">Отменить запрос</string>
 </resources>

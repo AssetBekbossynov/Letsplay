@@ -83,6 +83,28 @@
         app:layout_constraintStart_toEndOf="@id/ratingLabel"
         app:layout_constraintTop_toBottomOf="@+id/genderAge" />
 
+    <ImageButton
+        android:id="@+id/call"
+        android:layout_height="30dp"
+        android:layout_width="30dp"
+        android:background="@drawable/contact_btn_bg"
+        app:srcCompat="@drawable/ic_call"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintEnd_toStartOf="@id/message"
+        app:layout_constraintBottom_toTopOf="@id/layout"/>
+
+    <ImageButton
+        android:id="@+id/message"
+        android:layout_height="30dp"
+        android:layout_width="30dp"
+        android:background="@drawable/contact_btn_bg"
+        app:srcCompat="@drawable/ic_message"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/layout"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
@@ -111,6 +133,37 @@
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/friends"
             app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/friend_request"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@id/reject"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/accept"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:background="@drawable/accept_btn_bg"
+            app:srcCompat="@drawable/ic_accept"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/reject"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:background="@drawable/reject_btn_bg"
+            app:srcCompat="@drawable/ic_reject"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@id/accept"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <Button
             android:id="@+id/searchFriends"

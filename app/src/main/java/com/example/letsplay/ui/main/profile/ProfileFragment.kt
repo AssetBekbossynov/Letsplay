@@ -3,6 +3,7 @@ package com.example.letsplay.ui.main.profile
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
@@ -31,6 +32,8 @@ import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import android.database.Cursor
 import android.net.Uri
+import androidx.core.content.ContextCompat
+import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.view_profile_match_item.view.*
 
 
@@ -138,6 +141,10 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
 
     override fun onGetUserSuccess(userDto: UserDto) {
         this.userDto = userDto
+
+//        context?.let {
+//            (searchFriends as MaterialButton).strokeColor = ContextCompat.getColorStateList(it, R.color.gray)
+//        }
 
         for (i in userDto.userPhotos.indices){
             if (userDto.userPhotos.get(i).avatar!!){

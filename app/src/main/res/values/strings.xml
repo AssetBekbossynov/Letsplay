@@ -62,6 +62,9 @@
     <string name="current_match_date">The next match %s</string>
     <string name="played_match">Played matches</string>
     <string name="played_match_date">The last match %s</string>
+    <string name="friend_request">Friend request</string>
+    <string name="add_friend">Add friend</string>
+    <string name="cancel_request">cancel request</string>
 
 
     <string-array name="gender">
