@@ -8,9 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.letsplay.R
-import com.example.letsplay.enitity.auth.UserDto
+import com.example.letsplay.entity.auth.UserDto
 import com.example.letsplay.helper.ConstantsExtra
-import com.example.letsplay.helper.Logger
 import com.example.letsplay.ui.auth.AuthActivity
 import com.example.letsplay.ui.auth.ContentChangedListener
 import com.example.letsplay.ui.auth.forgot.ForgotPasswordFragment

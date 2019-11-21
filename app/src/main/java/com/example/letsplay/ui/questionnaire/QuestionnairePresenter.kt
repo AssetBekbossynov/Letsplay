@@ -1,7 +1,7 @@
 package com.example.letsplay.ui.questionnaire
 
-import com.example.letsplay.enitity.common.City
-import com.example.letsplay.enitity.profile.UserUpdateRequest
+import com.example.letsplay.entity.common.City
+import com.example.letsplay.entity.profile.UserUpdateRequest
 import com.example.letsplay.helper.UseCaseResult
 import com.example.letsplay.repository.AuthRepository
 import com.example.letsplay.repository.ProfileRepository

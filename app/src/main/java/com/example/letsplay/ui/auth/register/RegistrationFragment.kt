@@ -13,10 +13,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.letsplay.ui.common.BaseFragment
 import com.example.letsplay.R
-import com.example.letsplay.enitity.auth.OtpResponse
-import com.example.letsplay.enitity.common.City
+import com.example.letsplay.entity.auth.OtpResponse
+import com.example.letsplay.entity.common.City
 import com.example.letsplay.helper.DialogListAdapter
-import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.utility.visible
 import com.example.letsplay.ui.auth.ContentChangedListener
 import com.example.letsplay.ui.auth.login.LoginFragment
@@ -24,7 +23,6 @@ import com.example.letsplay.ui.auth.otp.OtpCheckFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import com.redmadrobot.inputmask.MaskedTextChangedListener
-import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
 import kotlinx.android.synthetic.main.registration_fragment.*
 import kotlinx.android.synthetic.main.table_cell_optional.view.*

@@ -2,43 +2,40 @@ package com.example.letsplay.ui.main.profile
 
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
-import com.example.letsplay.enitity.auth.PhotoDto
-import com.example.letsplay.enitity.auth.UserDto
-import com.example.letsplay.enitity.common.ImageBody
+import com.example.letsplay.entity.auth.PhotoDto
+import com.example.letsplay.entity.auth.UserDto
+import com.example.letsplay.entity.common.ImageBody
 import com.example.letsplay.ui.common.BaseFragment
-import com.squareup.picasso.MemoryPolicy
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import java.io.File
-import android.graphics.Bitmap
 import android.view.*
 import com.bumptech.glide.Glide
 import com.example.letsplay.R
 import com.example.letsplay.helper.ConstantsExtra
 import com.example.letsplay.helper.Logger
-import com.example.letsplay.helper.utility.BitmapUtility
 import com.example.letsplay.helper.utility.DateUtility
 import com.example.letsplay.helper.utility.gone
 import com.example.letsplay.helper.utility.visible
 import com.example.letsplay.ui.questionnaire.QuestionnaireActivity
 import java.util.*
-import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
+import android.database.Cursor
+import android.net.Uri
+import kotlinx.android.synthetic.main.view_profile_match_item.view.*
 
 
 class ProfileFragment : BaseFragment(), ProfileContract.View{
 
-    private val GALLERY_REQUEST_CODE = 123
     private var imageId: Int = -1
 
     lateinit var userDto: UserDto
@@ -69,26 +66,14 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
 
         profilePhoto.setOnClickListener {
 
-            val options = arrayOf<CharSequence>(getString(R.string.take_photo), getString(R.string.choose_from_gallery), getString(R.string.cancel))
-
-            val builder = AlertDialog.Builder(context)
-            builder.setTitle(getString(R.string.choose_photo))
-            builder.setItems(options, object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    if (options[which].equals(getString(R.string.take_photo))) {
-                        val takePicture = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(takePicture, 0);
-
-                    } else if (options[which].equals(getString(R.string.choose_from_gallery))) {
-                        val pickPhoto = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(pickPhoto , 1);
-
-                    } else if (options[which].equals(getString(R.string.cancel))) {
-                        dialog?.dismiss()
-                    }
-                }
-            })
-            builder.show()
+            context?.let {
+                CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setRequestedSize(400, 400)
+                    .setAspectRatio(1, 1)
+                    .setFixAspectRatio(true)
+                    .start(it, this)
+            }
         }
     }
 
@@ -99,45 +84,20 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != RESULT_CANCELED) {
-            when (requestCode) {
-                0 -> if (resultCode == RESULT_OK && data != null) {
-                    val selectedImage = data.extras?.get("data") as Bitmap
-
-                    val photoFile = File(activity!!.filesDir, "photo.png")
-
-                    BitmapUtility.saveBitmapToFile(selectedImage, photoFile.absolutePath)
-
-                    val imageBody = ImageBody("png", photoFile.path)
-                    Logger.msg("wtf gotoupload")
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == RESULT_OK) {
+                val mCropImageUri = result.uri
+                val realPath = getRealPathFromURI(mCropImageUri)
+                realPath?.let {
+                    val photoFile = File(realPath)
+                    val imageBody = ImageBody("image/jpeg", photoFile.path)
                     presenter.uploadPhoto(imageBody)
-                    Picasso.with(context).load(photoFile)
-                        .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                        .into(profilePhoto)
                 }
-                1 -> if (resultCode == RESULT_OK && data != null) {
-                    val selectedImage = data.data
-                    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-                    if (selectedImage != null) {
-                        val cursor = context?.contentResolver!!.query(
-                            selectedImage,
-                            filePathColumn, null, null, null
-                        )
-                        if (cursor != null) {
-                            cursor.moveToFirst()
-                            val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-                            val mediaPath = cursor.getString(columnIndex)
-                            // Set the Image in ImageView for Previewing the Media
-                            val imageBody = ImageBody("jpg", mediaPath)
-                            presenter.uploadPhoto(imageBody)
-                            Picasso.with(context).load(File(mediaPath))
-                                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                                .into(profilePhoto)
-//                            imgView.setImageBitmap(BitmapFactory.decodeFile(mediaPath))
-                            cursor.close()
-                        }
-                    }
-                }
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                val error = result.error
+            } else if (resultCode == RESULT_CANCELED){
+                Logger.msg("error")
             }
         }
     }
@@ -169,7 +129,7 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
     }
 
     override fun onPhotoUploadSuccess(photoDto: PhotoDto) {
-        Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
+        presenter.getUser()
     }
 
     override fun onPhotoUploadError(msg: String?) {
@@ -178,6 +138,13 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
 
     override fun onGetUserSuccess(userDto: UserDto) {
         this.userDto = userDto
+
+        for (i in userDto.userPhotos.indices){
+            if (userDto.userPhotos.get(i).avatar!!){
+                imageId = userDto.userPhotos.get(i).id!!
+                presenter.getPhoto(imageId)
+            }
+        }
 
         var nameLabel = ""
 
@@ -213,14 +180,25 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
             genderAge.text = userDto.gender
         }
 
-        for (i in userDto.userPhotos.indices){
-            if (userDto.userPhotos.get(i).avatar!!){
-                imageId = userDto.userPhotos.get(i).id!!
-            }
-        }
+        friends.text = userDto.numberOfFriends.toString()
 
-        if (imageId != -1){
-            presenter.getPhoto(imageId)
+        rating.text = userDto.attendanceRating.toString()
+
+        currentGame.title.text = getString(R.string.current_match)
+        lastGame.title.text = getString(R.string.played_match)
+
+        userDto.userGamesDto?.let {
+            currentGame.matchCount.text = it.activeGames.toString()
+            lastGame.matchCount.text = it.completedGames.toString()
+            if (it.activeGames == 0){
+                currentGame.match.gone()
+            }else{
+                currentGame.match.text = getString(R.string.current_match_date, it.nextGame)
+            }
+            if (it.completedGames == 0)
+                lastGame.match.gone()
+            else
+                lastGame.match.text = getString(R.string.played_match_date, it.lastGame)
         }
     }
 
@@ -232,6 +210,7 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
     }
 
     override fun onGetImageSuccess(url: GlideUrl) {
+        Logger.msg("API " + url)
         val options = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.NONE)
 
@@ -254,5 +233,26 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
         val ageInt = age
 
         return ageInt.toString()
+    }
+
+    private fun getRealPathFromURI(contentUri: Uri): String? {
+        when (contentUri.scheme) {
+            "file" -> return contentUri.path
+            "content" -> {
+                var cursor: Cursor? = null
+                try {
+                    val proj = arrayOf(MediaStore.Images.Media.DATA)
+                    cursor = context?.contentResolver!!.query(contentUri, proj, null, null, null)
+                    val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                    cursor.moveToFirst()
+                    val result = cursor.getString(column_index)
+                    cursor.close()
+                    return result
+                } catch (e: Exception) {
+                    return null
+                }
+            }
+            else -> return null
+        }
     }
 }

@@ -7,7 +7,7 @@
 package com.example.letsplay.repository
 
 import android.content.SharedPreferences
-import com.example.letsplay.enitity.common.TD_TOKEN
+import com.example.letsplay.entity.common.TD_TOKEN
 import com.example.letsplay.service.LocalStorage
 
 /**

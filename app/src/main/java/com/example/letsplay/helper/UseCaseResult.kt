@@ -1,6 +1,6 @@
 package com.example.letsplay.helper
 
-import com.example.letsplay.enitity.ResponseError
+import com.example.letsplay.entity.ResponseError
 
 sealed class UseCaseResult<out T : Any> {
     class Success<out T : Any>(val data: T) : UseCaseResult<T>()

@@ -1,7 +1,8 @@
-package com.example.letsplay.enitity.auth
+package com.example.letsplay.entity.auth
 
 import android.os.Parcelable
-import com.example.letsplay.enitity.common.CityDto
+import com.example.letsplay.entity.common.CityDto
+import com.example.letsplay.entity.profile.UserGamesDto
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -18,7 +19,11 @@ data class UserDto(@SerializedName("avatarPhotoId") val avatarPhotoId: Int?,
                    @SerializedName("activeGames") val activeGames: Int?,
                    @SerializedName("completedGames") val completedGames: Int?,
                    @SerializedName("numberOfFriends") val numberOfFriends: Int?,
-                   @SerializedName("userPhotos") val userPhotos: List<PhotoDto>) : Parcelable
+                   @SerializedName("userGamesDto") val userGamesDto: UserGamesDto?,
+                   @SerializedName("attendanceRating") val attendanceRating: Int?,
+                   @SerializedName("userPhotos") val userPhotos: List<PhotoDto>) : Parcelable {
+
+}
 /*
 {
     "cityCode": "string",

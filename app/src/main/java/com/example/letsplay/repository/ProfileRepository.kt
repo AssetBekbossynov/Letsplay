@@ -1,16 +1,12 @@
 package com.example.letsplay.repository
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
-import com.bumptech.glide.request.RequestOptions
-import com.example.letsplay.enitity.ResponseError
-import com.example.letsplay.enitity.auth.PhotoDto
-import com.example.letsplay.enitity.auth.UserDto
-import com.example.letsplay.enitity.common.ImageBody
-import com.example.letsplay.enitity.profile.UserUpdateRequest
+import com.example.letsplay.entity.ResponseError
+import com.example.letsplay.entity.auth.PhotoDto
+import com.example.letsplay.entity.auth.UserDto
+import com.example.letsplay.entity.common.ImageBody
+import com.example.letsplay.entity.profile.UserUpdateRequest
 import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.UseCaseResult
 import com.example.letsplay.service.LocalStorage
@@ -21,7 +17,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.HttpException
-import retrofit2.Response
 import java.io.File
 import java.io.IOException
 

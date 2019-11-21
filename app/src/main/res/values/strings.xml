@@ -52,11 +52,16 @@
     </plurals>
 
     <string name="field_must_not_be_empty">Fields must not be empty</string>
-    <string name="choose_from_gallery">Choose from Gallery</string>
-    <string name="take_photo">Take photo</string>
-    <string name="choose_photo">Choose your profile picture</string>
     <string name="registration_success">You successfully registered. Now you can login into the system with your phone number</string>
     <string name="enter_code">Please enter code from SMS</string>
+
+    <string name="rating">Rating</string>
+    <string name="friends">Friends</string>
+    <string name="find_friends">Find friends</string>
+    <string name="current_match">Current matches</string>
+    <string name="current_match_date">The next match %s</string>
+    <string name="played_match">Played matches</string>
+    <string name="played_match_date">The last match %s</string>
 
 
     <string-array name="gender">

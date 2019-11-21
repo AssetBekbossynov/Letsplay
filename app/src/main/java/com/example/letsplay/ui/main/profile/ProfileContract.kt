@@ -1,10 +1,9 @@
 package com.example.letsplay.ui.main.profile
 
-import android.graphics.Bitmap
 import com.bumptech.glide.load.model.GlideUrl
-import com.example.letsplay.enitity.auth.PhotoDto
-import com.example.letsplay.enitity.auth.UserDto
-import com.example.letsplay.enitity.common.ImageBody
+import com.example.letsplay.entity.auth.PhotoDto
+import com.example.letsplay.entity.auth.UserDto
+import com.example.letsplay.entity.common.ImageBody
 import com.example.letsplay.ui.common.BasePresenter
 import com.example.letsplay.ui.common.BaseView
 

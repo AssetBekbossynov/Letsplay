@@ -44,4 +44,13 @@
     <string name="surname">Фамилия</string>
     <string name="verification_text">Это поможет нам аутентифицировать каждого пользователя сервиса, для вашей собственной безопасности.</string>
     <string name="field_must_not_be_empty">Заполните все поля</string>
+    <string name="current_match">Текущие матчи</string>
+    <string name="current_match_date">Ближайший матч %s</string>
+    <string name="enter_code">Введите код из SMS</string>
+    <string name="find_friends">Найти друзей</string>
+    <string name="friends">Друзей</string>
+    <string name="played_match">Сыгранные матчи</string>
+    <string name="played_match_date">Последний матч сыгран %s</string>
+    <string name="rating">Рейтинг</string>
+    <string name="registration_success">Вы успешно зарегистрировались. Теперь можно войти в систему с помощью номера телефона</string>
 </resources>

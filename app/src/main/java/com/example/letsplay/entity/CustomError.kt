@@ -1,4 +1,4 @@
-package com.example.letsplay.enitity
+package com.example.letsplay.entity
 
 import com.google.gson.annotations.SerializedName
 

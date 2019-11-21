@@ -1,8 +1,7 @@
 package com.example.letsplay.service
 
-import com.example.letsplay.enitity.auth.*
-import com.example.letsplay.enitity.common.Country
-import okhttp3.ResponseBody
+import com.example.letsplay.entity.auth.*
+import com.example.letsplay.entity.common.Country
 import retrofit2.Response
 import retrofit2.http.*
 

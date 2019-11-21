@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import com.example.letsplay.R
-import com.example.letsplay.enitity.auth.UserDto
+import com.example.letsplay.entity.auth.UserDto
 import com.example.letsplay.helper.ConstantsExtra
 import com.example.letsplay.helper.Logger
 import com.example.letsplay.ui.questionnaire.QuestionnaireActivity

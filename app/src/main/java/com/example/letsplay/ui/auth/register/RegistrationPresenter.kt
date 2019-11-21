@@ -1,8 +1,7 @@
 package com.example.letsplay.ui.auth.register
 
-import com.example.letsplay.enitity.auth.UserRequest
-import com.example.letsplay.enitity.common.City
-import com.example.letsplay.helper.Logger
+import com.example.letsplay.entity.auth.UserRequest
+import com.example.letsplay.entity.common.City
 import com.example.letsplay.helper.UseCaseResult
 import com.example.letsplay.repository.AuthRepository
 import kotlinx.coroutines.*

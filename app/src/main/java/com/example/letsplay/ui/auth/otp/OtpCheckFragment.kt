@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.letsplay.ui.common.BaseFragment
 import com.example.letsplay.R
-import com.example.letsplay.enitity.auth.OtpResponse
+import com.example.letsplay.entity.auth.OtpResponse
 import com.example.letsplay.helper.ConstantsExtra
 import com.example.letsplay.helper.utility.gone
 import com.example.letsplay.ui.auth.AuthActivity

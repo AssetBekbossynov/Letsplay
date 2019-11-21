@@ -1,7 +1,7 @@
 package com.example.letsplay.ui.auth.register
 
-import com.example.letsplay.enitity.auth.OtpResponse
-import com.example.letsplay.enitity.common.City
+import com.example.letsplay.entity.auth.OtpResponse
+import com.example.letsplay.entity.common.City
 import com.example.letsplay.ui.common.BasePresenter
 import com.example.letsplay.ui.common.BaseView
 

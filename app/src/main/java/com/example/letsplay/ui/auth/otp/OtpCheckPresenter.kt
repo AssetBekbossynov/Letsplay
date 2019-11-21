@@ -1,6 +1,6 @@
 package com.example.letsplay.ui.auth.otp
 
-import com.example.letsplay.enitity.auth.UserActivateRequest
+import com.example.letsplay.entity.auth.UserActivateRequest
 import com.example.letsplay.helper.UseCaseResult
 import com.example.letsplay.repository.AuthRepository
 import kotlinx.coroutines.CoroutineScope

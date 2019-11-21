@@ -1,8 +1,7 @@
 package com.example.letsplay.ui.main.profile
 
-import android.graphics.Bitmap
 import com.bumptech.glide.load.model.GlideUrl
-import com.example.letsplay.enitity.common.ImageBody
+import com.example.letsplay.entity.common.ImageBody
 import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.UseCaseResult
 import com.example.letsplay.repository.ProfileRepository

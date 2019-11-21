@@ -10,9 +10,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.example.letsplay.R
-import com.example.letsplay.enitity.auth.UserDto
-import com.example.letsplay.enitity.common.City
-import com.example.letsplay.enitity.profile.UserUpdateRequest
+import com.example.letsplay.entity.auth.UserDto
+import com.example.letsplay.entity.common.City
+import com.example.letsplay.entity.profile.UserUpdateRequest
 import com.example.letsplay.helper.ConstantsExtra
 import com.example.letsplay.helper.DialogListAdapter
 import com.example.letsplay.helper.utility.visible

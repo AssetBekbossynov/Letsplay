@@ -1,6 +1,6 @@
 package com.example.letsplay.ui.auth.login
 
-import com.example.letsplay.enitity.auth.UserDto
+import com.example.letsplay.entity.auth.UserDto
 import com.example.letsplay.ui.common.BasePresenter
 import com.example.letsplay.ui.common.BaseView
 

@@ -1,6 +1,6 @@
 package com.example.letsplay.ui.auth.login
 
-import com.example.letsplay.enitity.auth.Login
+import com.example.letsplay.entity.auth.Login
 import com.example.letsplay.helper.UseCaseResult
 import com.example.letsplay.repository.AuthRepository
 import com.example.letsplay.service.LocalStorage

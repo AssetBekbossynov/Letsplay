@@ -1,19 +1,15 @@
 package com.example.letsplay.repository
 
-import com.example.letsplay.enitity.ResponseError
-import com.example.letsplay.enitity.auth.*
-import com.example.letsplay.enitity.common.Country
+import com.example.letsplay.entity.ResponseError
+import com.example.letsplay.entity.auth.*
+import com.example.letsplay.entity.common.Country
 import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.UseCaseResult
 import com.example.letsplay.service.AuthService
-import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
-import okhttp3.ResponseBody
 import retrofit2.HttpException
 import java.io.IOException
 import kotlin.Exception
-import retrofit2.adapter.rxjava2.Result.response
-import android.R.string
 import com.example.letsplay.service.LocalStorage
 import org.json.JSONObject
 import retrofit2.Response

@@ -1,4 +1,4 @@
-package com.example.letsplay.enitity.auth
+package com.example.letsplay.entity.auth
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

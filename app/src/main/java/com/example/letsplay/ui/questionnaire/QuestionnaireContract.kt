@@ -1,8 +1,8 @@
 package com.example.letsplay.ui.questionnaire
 
-import com.example.letsplay.enitity.auth.UserDto
-import com.example.letsplay.enitity.common.City
-import com.example.letsplay.enitity.profile.UserUpdateRequest
+import com.example.letsplay.entity.auth.UserDto
+import com.example.letsplay.entity.common.City
+import com.example.letsplay.entity.profile.UserUpdateRequest
 import com.example.letsplay.ui.common.BasePresenter
 import com.example.letsplay.ui.common.BaseView
 
