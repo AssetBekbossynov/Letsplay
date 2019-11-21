@@ -20,6 +20,7 @@ import org.koin.core.parameter.parametersOf
 import java.io.File
 import android.graphics.Bitmap
 import android.view.*
+import com.bumptech.glide.Glide
 import com.example.letsplay.R
 import com.example.letsplay.helper.ConstantsExtra
 import com.example.letsplay.helper.Logger
@@ -29,6 +30,10 @@ import com.example.letsplay.helper.utility.gone
 import com.example.letsplay.helper.utility.visible
 import com.example.letsplay.ui.questionnaire.QuestionnaireActivity
 import java.util.*
+import com.bumptech.glide.load.model.LazyHeaders
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 
 
 class ProfileFragment : BaseFragment(), ProfileContract.View{
@@ -196,7 +201,7 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
 
         nickname.text = userDto.nickname
 
-        region.text = userDto.cityName
+        region.text = userDto.cityDto!!.cityName
 
         val age = getAge(DateUtility.stringToCalendar(DateUtility.getDashedYMDdateFormat(),
             userDto.dateOfBirth), Calendar.getInstance())
@@ -214,9 +219,9 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
             }
         }
 
-//        if (imageId != -1){
-//            presenter.getPhoto(imageId)
-//        }
+        if (imageId != -1){
+            presenter.getPhoto(imageId)
+        }
     }
 
     override fun onGetUserError(msg: String?) {
@@ -226,8 +231,13 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
         }
     }
 
-    override fun onGetImageSuccess(bitmap: Bitmap) {
-        profilePhoto.setImageBitmap(bitmap)
+    override fun onGetImageSuccess(url: GlideUrl) {
+        val options = RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+
+        Glide.with(context!!).load(url)
+            .apply(options)
+            .into(profilePhoto);
     }
 
     override fun onGetImageError(msg: String?) {

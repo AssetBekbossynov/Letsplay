@@ -2,6 +2,10 @@ package com.example.letsplay.repository
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
+import com.bumptech.glide.request.RequestOptions
 import com.example.letsplay.enitity.ResponseError
 import com.example.letsplay.enitity.auth.PhotoDto
 import com.example.letsplay.enitity.auth.UserDto
@@ -33,10 +37,14 @@ class ProfileRepositoryImpl(private val service: ProfileService, private val loc
     override suspend fun getPhoto(imageId: Int): UseCaseResult<Any>? {
         return localStorage.getToken()?.let {
             try {
-                val input = java.net.URL("https://almatyapp.herokuapp.com/api/user/image/5").openStream()
-                val bitmap = BitmapFactory.decodeStream(input)
+
+                val glideUrl = GlideUrl(
+                    "https://almatyapp.herokuapp.com/api/user/image/$imageId", LazyHeaders.Builder()
+                        .addHeader("Authorization", it)
+                        .build()
+                )
 //                val task = service.getPhoto(it, imageId)
-                UseCaseResult.Success(bitmap)
+                UseCaseResult.Success(glideUrl)
             }catch (ex: Exception){
                 Logger.msg("photo " + ex.message)
                 when(ex) {
@@ -133,7 +141,7 @@ class ProfileRepositoryImpl(private val service: ProfileService, private val loc
         var body: MultipartBody.Part? = null
         val file = File(imageParams.path)
         val requestFile = RequestBody.create(MediaType.parse(imageParams.type), file)
-        body = MultipartBody.Part.createFormData("filename", file.name, requestFile)
+        body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 //        }
         return body!!
     }

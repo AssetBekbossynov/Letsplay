@@ -83,6 +83,7 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
     implementation 'com.redmadrobot:inputmask:3.4.4'
     implementation 'de.hdodenhof:circleimageview:3.0.1'
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
     implementation("com.squareup.moshi:moshi-kotlin:1.9.1")
 
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.7@aar') {

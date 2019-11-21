@@ -1,13 +1,13 @@
 package com.example.letsplay.enitity.auth
 
 import android.os.Parcelable
+import com.example.letsplay.enitity.common.CityDto
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class UserDto(@SerializedName("avatarPhotoId") val avatarPhotoId: Int?,
-                   @SerializedName("cityCode") val cityCode: String?,
-                   @SerializedName("cityName") val cityName: String?,
+                   @SerializedName("cityDto") val cityDto: CityDto?,
                    @SerializedName("dateOfBirth") val dateOfBirth: String?,
                    @SerializedName("firstName") val firstName: String?,
                    @SerializedName("gender") val gender: String?,

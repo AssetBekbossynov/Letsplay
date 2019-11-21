@@ -159,10 +159,10 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
         userDtoOld?.dateOfBirth.let {
             dateOfBirth.value.editText?.setText(it)
         }
-        userDtoOld?.cityName.let {
+        userDtoOld?.cityDto?.cityName?.let {
             city.value.editText?.setText(it)
         }
-        userDtoOld?.cityCode.let {
+        userDtoOld?.cityDto?.cityCode?.let {
             cityCode = it
         }
     }

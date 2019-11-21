@@ -1,6 +1,7 @@
 package com.example.letsplay.ui.main.profile
 
 import android.graphics.Bitmap
+import com.bumptech.glide.load.model.GlideUrl
 import com.example.letsplay.enitity.auth.PhotoDto
 import com.example.letsplay.enitity.auth.UserDto
 import com.example.letsplay.enitity.common.ImageBody
@@ -13,7 +14,7 @@ interface ProfileContract {
         fun onGetUserError(msg: String?)
         fun onPhotoUploadSuccess(photoDto: PhotoDto)
         fun onPhotoUploadError(msg: String?)
-        fun onGetImageSuccess(bitmap: Bitmap)
+        fun onGetImageSuccess(url: GlideUrl)
         fun onGetImageError(msg: String?)
     }
 

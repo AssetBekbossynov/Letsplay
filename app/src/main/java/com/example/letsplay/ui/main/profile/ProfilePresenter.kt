@@ -1,6 +1,7 @@
 package com.example.letsplay.ui.main.profile
 
 import android.graphics.Bitmap
+import com.bumptech.glide.load.model.GlideUrl
 import com.example.letsplay.enitity.common.ImageBody
 import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.UseCaseResult
@@ -23,7 +24,7 @@ class ProfilePresenter(override var view: ProfileContract.View?,
             }
             when(result){
                 is UseCaseResult.Success -> {
-                    view?.onGetImageSuccess(result.data as Bitmap)
+                    view?.onGetImageSuccess(result.data as GlideUrl)
                 }
                 is UseCaseResult.Error -> {
                     view?.onGetImageError(result.error?.message)
