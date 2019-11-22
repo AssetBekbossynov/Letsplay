@@ -65,7 +65,7 @@ class RegistrationFragment: BaseFragment(),
 
         context = activity
 
-        cityName.spinner.visible()
+//        cityName.spinner.visible()
         cityName.value.editText?.isFocusable = false
         cityName.value.editText?.isClickable = true
         cityName.value.hint = getString(R.string.select_city)
@@ -114,8 +114,8 @@ class RegistrationFragment: BaseFragment(),
 
         createCustomDialog()
 
-        password.editText?.setText("Test1234!")
-        password_again.editText?.setText("Test1234!")
+//        password.editText?.setText("Test1234!")
+//        password_again.editText?.setText("Test1234!")
 
     }
 

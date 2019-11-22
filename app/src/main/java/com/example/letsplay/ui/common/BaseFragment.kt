@@ -46,7 +46,8 @@ abstract class BaseFragment: Fragment() {
         } else {
             activity?.let { hideSoftKeyBoard(it) }
         }
-        til.editText!!.error = errorMsg ?: getString(R.string.field_must_not_be_empty)
+        til.error = errorMsg ?: getString(R.string.field_must_not_be_empty)
+//        til.editText!!.error = errorMsg ?: getString(R.string.field_must_not_be_empty)
     }
 
     protected fun hideSoftKeyBoard(activity: Activity){

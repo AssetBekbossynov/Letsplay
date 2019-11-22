@@ -177,10 +177,10 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
 
         region.text = userDto.cityDto!!.cityName
 
-        val age = getAge(DateUtility.stringToCalendar(DateUtility.getDashedYMDdateFormat(),
-            userDto.dateOfBirth), Calendar.getInstance())
-
         if (userDto.dateOfBirth != null){
+            val age = getAge(DateUtility.stringToCalendar(DateUtility.getDashedYMDdateFormat(),
+                userDto.dateOfBirth), Calendar.getInstance())
+
             genderAge.text = resources.getQuantityString(R.plurals.profile_gender_age,
                 age.toInt(), userDto.gender, age)
         }else{
