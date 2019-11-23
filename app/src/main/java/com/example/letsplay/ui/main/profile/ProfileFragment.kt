@@ -33,6 +33,7 @@ import com.theartofdev.edmodo.cropper.CropImageView
 import android.database.Cursor
 import android.net.Uri
 import androidx.core.content.ContextCompat
+import com.example.letsplay.ui.search.SearchActivity
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.view_profile_match_item.view.*
 
@@ -142,9 +143,31 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
     override fun onGetUserSuccess(userDto: UserDto) {
         this.userDto = userDto
 
-//        context?.let {
-//            (searchFriends as MaterialButton).strokeColor = ContextCompat.getColorStateList(it, R.color.gray)
-//        }
+        context?.let {
+            if (userDto.friendsInfo != null){
+                if (userDto.friendsInfo.status!!.equals("PENDING")){
+                    if (userDto.friendsInfo.acceptingUser!!.equals(userDto.nickname)){
+                        friendRequest.gone()
+                        searchFriends.visible()
+                    }else{
+                        (searchFriends as MaterialButton).strokeColor = ContextCompat.getColorStateList(it, R.color.gray)
+                        (searchFriends as MaterialButton).setTextColor(ContextCompat.getColor(it, R.color.gray))
+                        (searchFriends as MaterialButton).text = getString(R.string.cancel_request)
+                        friendRequest.visible()
+                        searchFriends.gone()
+                    }
+                }else{
+                    (searchFriends as MaterialButton).text = getString(R.string.add_friend)
+                    (searchFriends as MaterialButton).strokeColor = ContextCompat.getColorStateList(it, R.color.colorAccent)
+                    (searchFriends as MaterialButton).setTextColor(ContextCompat.getColor(it, R.color.colorAccent))
+                }
+            }else{
+                searchFriends.setOnClickListener {
+                    val intent = Intent(context, SearchActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
 
         for (i in userDto.userPhotos.indices){
             if (userDto.userPhotos.get(i).avatar!!){

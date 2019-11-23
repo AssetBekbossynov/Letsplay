@@ -45,10 +45,10 @@
 
     <string name="profile_full_name" translatable="false">%s %s %s</string>
     <plurals name="profile_gender_age">
-        <item quantity="one" formatted="true">%s, %s years</item>
-        <item quantity="few" formatted="true">%s, %s years</item>
-        <item quantity="many" formatted="true">%s, %s years</item>
-        <item quantity="other" formatted="true">%s, %s years</item>
+        <item formatted="true" quantity="one">%s, %s years</item>
+        <item formatted="true" quantity="few">%s, %s years</item>
+        <item formatted="true" quantity="many">%s, %s years</item>
+        <item formatted="true" quantity="other">%s, %s years</item>
     </plurals>
 
     <string name="field_must_not_be_empty">Fields must not be empty</string>
