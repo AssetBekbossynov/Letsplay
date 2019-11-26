@@ -54,4 +54,20 @@ class QuestionnairePresenter(private val authRep: AuthRepository,
             }
         }
     }
+
+    override fun getGenders() {
+        launch {
+            val result = withContext(Dispatchers.IO){
+                authRep.getGenders()
+            }
+            when(result){
+                is UseCaseResult.Success -> {
+                    view?.onGetGendersSuccess(result.data)
+                }
+                is UseCaseResult.Error -> {
+                    view?.onGetGendersError(result.error?.message)
+                }
+            }
+        }
+    }
 }

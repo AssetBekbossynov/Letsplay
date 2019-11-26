@@ -1,5 +1,6 @@
 package com.example.letsplay.ui.questionnaire
 
+import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat
 import com.example.letsplay.R
 import com.example.letsplay.entity.auth.UserDto
 import com.example.letsplay.entity.common.City
+import com.example.letsplay.entity.common.Gender
 import com.example.letsplay.entity.profile.UserUpdateRequest
 import com.example.letsplay.helper.ConstantsExtra
 import com.example.letsplay.helper.DialogListAdapter
@@ -44,8 +46,10 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
     internal lateinit var cityList: ArrayList<String>
     internal lateinit var cityCodeList: ArrayList<String>
     internal lateinit var genderList: ArrayList<String>
+    internal lateinit var genderCodeList: ArrayList<String>
 
     internal var cityCode: String? = null
+    internal var genderCode: String? = null
 
     var userDtoOld: UserDto? = null
 
@@ -59,7 +63,7 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
 
         save.setOnClickListener {
             val userUpdateRequest = UserUpdateRequest(dateOfBirth.value.editText?.text.toString(),
-                    gender.value.editText?.text.toString().toUpperCase(),
+                    genderCode!!,
                     cityCode!!,
                     name.value.editText?.text.toString(),
                     surname.value.editText?.text.toString(),
@@ -87,7 +91,25 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
         }
     }
 
+    override fun onGetGendersError(msg: String?) {
+        Toast.makeText(this, "$msg", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onGetGendersSuccess(genders: List<Gender>) {
+        genderList = ArrayList()
+        genderCodeList = ArrayList()
+        for (i in genders.indices) {
+            genders[i].translation.let { genderList.add(it) }
+            genders[i].genderCode.let { genderCodeList.add(it) }
+        }
+        runOnUiThread {
+            showCustomDialog(genderList, gender.value.editText)
+            adapter?.notifyDataSetChanged()
+        }
+    }
+
     override fun onUserUpdateSuccess(userDto: UserDto) {
+        setResult(Activity.RESULT_OK)
         finish()
     }
 
@@ -168,13 +190,17 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
     }
 
     private fun selectGender(){
-        showCustomDialog(genderList, gender.value.editText)
-
+        showCustomDialog(null, null)
+        presenter.getGenders()
         gender.value.editText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
                 dialog?.cancel()
+                if (adapter != null) {
+                    genderCode = genderCodeList[adapter?.itemId!!]
+                    adapter = null
+                }
             }
         })
     }

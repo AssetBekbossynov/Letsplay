@@ -2,6 +2,7 @@ package com.example.letsplay.service
 
 import com.example.letsplay.entity.auth.*
 import com.example.letsplay.entity.common.Country
+import com.example.letsplay.entity.common.Gender
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -13,6 +14,10 @@ interface AuthService {
 
     @GET("country")
     suspend fun getCities(@Header("Content-Type") contentType: String): List<Country>
+
+    @GET("gender")
+    suspend fun getGender(@Header("Content-Type") contentType: String,
+                          @Header("Accept-Language") language: String): List<Gender>
 
     @PATCH("registration")
     suspend fun activateUser(@Header("Content-Type") contentType: String,

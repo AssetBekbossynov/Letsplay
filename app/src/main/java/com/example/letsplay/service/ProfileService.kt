@@ -24,7 +24,6 @@ interface ProfileService {
     @Multipart
     @POST("api/user/image")
     suspend fun uploadPhoto(@Header("Authorization") token: String,
-//                            @Header("Content-Type") contentType: String,
                             @Part file: MultipartBody.Part): PhotoDto
 
     @GET("api/user/image/{imageId}")
