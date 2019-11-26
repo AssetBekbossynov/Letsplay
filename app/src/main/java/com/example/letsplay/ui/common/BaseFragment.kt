@@ -33,8 +33,8 @@ abstract class BaseFragment: Fragment() {
     }
 
     protected fun hideError(til : TextInputLayout){
-        if(til.editText?.error!=null){
-            til.editText?.error = null
+        if(til.error!=null){
+            til.error = null
         }
     }
 
@@ -47,7 +47,6 @@ abstract class BaseFragment: Fragment() {
             activity?.let { hideSoftKeyBoard(it) }
         }
         til.error = errorMsg ?: getString(R.string.field_must_not_be_empty)
-//        til.editText!!.error = errorMsg ?: getString(R.string.field_must_not_be_empty)
     }
 
     protected fun hideSoftKeyBoard(activity: Activity){

@@ -237,11 +237,14 @@ class RegistrationFragment: BaseFragment(),
             if (isEqual(phone, editable)) {
                 if (phone.editText?.text.toString().length > 4){
                     phoneFilled = true
+                    hideError(phone)
                 }
             } else if (isEqual(password, editable)) {
                 passwordFilled = true
+                hideError(password)
             } else if (isEqual(cityName.value, editable)) {
                 cityNameFilled = true
+                hideError(cityName.value)
             }
             if(phone.editText?.text.toString().length < 5){ phoneFilled = false }
             if(emptyField(password)){ passwordFilled = false }
