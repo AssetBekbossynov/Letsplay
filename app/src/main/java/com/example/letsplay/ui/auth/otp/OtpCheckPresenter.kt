@@ -23,7 +23,11 @@ class OtpCheckPresenter(private val authRep: AuthRepository,
             when(result){
                 is UseCaseResult.Success -> view?.onUserActivationSuccess()
                 is UseCaseResult.Error -> {
-                    view?.onUserActivationError(result.error?.message)
+                    if (result.error?.status == 404){
+                        view?.showResendButton(result.error.message)
+                    }else {
+                        view?.onUserActivationError(result.error?.message)
+                    }
                 }
             }
         }
@@ -35,7 +39,7 @@ class OtpCheckPresenter(private val authRep: AuthRepository,
                 authRep.resendSms(phone)
             }
             when(result){
-                is UseCaseResult.Success -> view?.onResendSuccess()
+                is UseCaseResult.Success -> view?.onResendSuccess(result.data)
                 is UseCaseResult.Error -> {
                     view?.onResendError(result.error?.message)
                 }

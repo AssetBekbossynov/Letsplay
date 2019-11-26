@@ -16,6 +16,7 @@ import com.example.letsplay.R
 import com.example.letsplay.entity.auth.OtpResponse
 import com.example.letsplay.helper.ConstantsExtra
 import com.example.letsplay.helper.utility.gone
+import com.example.letsplay.helper.utility.visible
 import com.example.letsplay.ui.auth.AuthActivity
 import com.example.letsplay.ui.auth.ContentChangedListener
 import com.example.letsplay.ui.auth.login.LoginFragment
@@ -34,7 +35,6 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
     var phoneNumber: String? = null
     internal var handler = Handler()
     private var seconds = 0
-    private var allowReset = 2
 
     private lateinit var listener: ContentChangedListener
 
@@ -100,12 +100,7 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
 
         resend.setOnClickListener {
             resend.gone()
-            if (allowReset != 0){
-                presenter.resendCode(phoneNumber!!)
-                allowReset =-1
-            }else{
-                Toast.makeText(context, getString(R.string.limit_exceed), Toast.LENGTH_LONG).show()
-            }
+            presenter.resendCode(phoneNumber!!)
         }
     }
 
@@ -115,13 +110,21 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
         handler.postDelayed(counter, 0)
     }
 
-    override fun onResendSuccess() {
-        seconds = arguments?.getParcelable<OtpResponse>(ConstantsExtra.OTP_RESPONSE)?.expiresIn!! * 60
+    override fun onResendSuccess(otpResponse: OtpResponse) {
+        seconds = otpResponse.expiresIn * 60
         handler.postDelayed(counter, 0)
         Toast.makeText(context, getString(R.string.resend_success), Toast.LENGTH_LONG).show()
     }
 
     override fun onResendError(msg: String?) {
+        resend.visible()
+        Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
+    }
+
+    override fun showResendButton(msg: String?) {
+        resend.visible()
+        next.isEnabled = true
+        seconds = 0
         Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
     }
 

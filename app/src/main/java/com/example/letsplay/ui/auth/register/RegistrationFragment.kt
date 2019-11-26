@@ -114,8 +114,8 @@ class RegistrationFragment: BaseFragment(),
 
         createCustomDialog()
 
-//        password.editText?.setText("Test1234!")
-//        password_again.editText?.setText("Test1234!")
+        password.editText?.setText("Test1234!")
+        password_again.editText?.setText("Test1234!")
 
     }
 

@@ -92,7 +92,7 @@ class LoginFragment : BaseFragment(), LoginContract.View{
         presenter.start()
 
         password.editText?.setText("Test1234!")
-        phone.editText?.setText("75767680000")
+        phone.editText?.setText("70000000000")
     }
 
     override fun onLoginSuccess(userDto: UserDto?) {

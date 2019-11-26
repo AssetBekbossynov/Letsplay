@@ -23,9 +23,9 @@ interface AuthService {
     suspend fun activateUser(@Header("Content-Type") contentType: String,
                              @Body userActivateRequest: UserActivateRequest): UserDto
 
-    @PATCH("registration/{phoneNumber}")
+    @POST("registration/{phoneNumber}")
     suspend fun resendOtp(@Header("Content-Type") contentType: String,
-                          @Path("phoneNumber") phone: String)
+                          @Path("phoneNumber") phone: String): OtpResponse
 
     @POST("login")
     suspend fun login(@Header("Content-Type") contentType: String,

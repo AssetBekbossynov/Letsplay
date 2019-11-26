@@ -23,7 +23,7 @@ interface AuthRepository {
     suspend fun getCities(): UseCaseResult<List<Country>>
     suspend fun getGenders(): UseCaseResult<List<Gender>>
     suspend fun activateUser(userActivateRequest: UserActivateRequest): UseCaseResult<UserDto>
-    suspend fun resendSms(phone: String): UseCaseResult<Unit>
+    suspend fun resendSms(phone: String): UseCaseResult<OtpResponse>
     suspend fun login(login: Login): UseCaseResult<Response<UserDto>>
 }
 
@@ -105,7 +105,7 @@ class AuthRepositoryImpl(private val service: AuthService, private val localStor
         }
     }
 
-    override suspend fun resendSms(phone: String): UseCaseResult<Unit> {
+    override suspend fun resendSms(phone: String): UseCaseResult<OtpResponse> {
         return try {
             val task = service.resendOtp("application/json", phone)
             UseCaseResult.Success(task)
