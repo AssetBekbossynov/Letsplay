@@ -164,6 +164,7 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
             }else{
                 searchFriends.setOnClickListener {
                     val intent = Intent(context, SearchActivity::class.java)
+                    intent.putExtra(ConstantsExtra.SEARCH_TYPE, true)
                     startActivity(intent)
                 }
             }

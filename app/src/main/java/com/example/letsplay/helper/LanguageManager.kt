@@ -6,12 +6,19 @@
 
 package com.example.letsplay.helper
 
+import com.example.letsplay.service.LocalStorage
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 import java.util.*
 
 /**
  * This class handle current user authorization status
  */
-object LanguageManager {
+object LanguageManager: KoinComponent {
+
+    private val localStorage: LocalStorage by inject()
+
+    fun getToken(): String? = localStorage.getToken()
 
     fun getLanguage() : String {
         return when(Locale.getDefault().language){
