@@ -1,6 +1,7 @@
 package com.example.letsplay.ui.search
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.request.RequestOptions
 import com.example.letsplay.R
 import com.example.letsplay.entity.profile.Player
+import com.example.letsplay.helper.ConstantsExtra
 import com.example.letsplay.helper.LanguageManager
 import com.example.letsplay.helper.utility.gone
 import com.example.letsplay.helper.utility.visible
@@ -20,7 +22,7 @@ import kotlinx.android.synthetic.main.player_item.view.*
 
 class SearchPlayerAdapter(private val context: Context, val list: ArrayList<Player>) : RecyclerView.Adapter<SearchPlayerAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.player_item, parent))
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.player_item, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -60,7 +62,13 @@ class SearchPlayerAdapter(private val context: Context, val list: ArrayList<Play
 
         Glide.with(context).load(glideUrl)
             .apply(options)
-            .into(holder.itemView.iv);
+            .into(holder.itemView.iv)
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, NoBottomNavActivity::class.java)
+            intent.putExtra(ConstantsExtra.NICKNAME, list[position].nickname)
+            context.startActivity(intent)
+        }
     }
 
 

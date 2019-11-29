@@ -175,8 +175,11 @@ class QuestionnaireActivity : BaseActivity(), QuestionnaireContract.View {
         userDtoOld?.firstName.let {
             name.value.editText?.setText(it)
         }
-        userDtoOld?.gender.let {
-            gender.value.editText?.setText(it)
+        userDtoOld?.gender?.let {
+            gender.value.editText?.setText(it.translation)
+        }
+        userDtoOld?.gender?.let {
+            genderCode = it.genderCode
         }
         userDtoOld?.dateOfBirth.let {
             dateOfBirth.value.editText?.setText(it)

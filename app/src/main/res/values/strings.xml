@@ -66,6 +66,9 @@
     <string name="add_friend">Add friend</string>
     <string name="cancel_request">cancel request</string>
 
+    <string name="fields">Fields</string>
+    <string name="players">Players</string>
+
 
     <string-array name="gender">
         <item>Male</item>

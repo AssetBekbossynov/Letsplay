@@ -1,5 +1,6 @@
 package com.example.letsplay.ui.main.profile
 
+import android.provider.ContactsContract
 import com.bumptech.glide.load.model.GlideUrl
 import com.example.letsplay.entity.common.ImageBody
 import com.example.letsplay.helper.Logger
@@ -49,10 +50,10 @@ class ProfilePresenter(override var view: ProfileContract.View?,
         }
     }
 
-    override fun getUser() {
+    override fun getUser(nickname: String?) {
         launch {
             val result = withContext(Dispatchers.IO){
-                profileRep.getUser()
+                profileRep.getUser(nickname)
             }
             when(result){
                 is UseCaseResult.Success -> {
@@ -64,5 +65,7 @@ class ProfilePresenter(override var view: ProfileContract.View?,
             }
         }
     }
+
+
 
 }

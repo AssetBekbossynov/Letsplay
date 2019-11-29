@@ -279,6 +279,14 @@ abstract class BaseActivity : AppCompatActivity() {
         supportFragmentManager.executePendingTransactions()
     }
 
+    fun removeFragment(fragment: Fragment){
+        supportFragmentManager.beginTransaction().apply {
+            remove(fragment)
+            commit()
+        }
+        supportFragmentManager.executePendingTransactions()
+    }
+
     fun showFragment(fragment: Fragment){
         active = fragment
         active?.let {

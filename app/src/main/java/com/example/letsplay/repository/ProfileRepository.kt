@@ -1,11 +1,13 @@
 package com.example.letsplay.repository
 
+import android.provider.ContactsContract
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.example.letsplay.entity.ResponseError
 import com.example.letsplay.entity.auth.PhotoDto
 import com.example.letsplay.entity.auth.UserDto
 import com.example.letsplay.entity.common.ImageBody
+import com.example.letsplay.entity.profile.Player
 import com.example.letsplay.entity.profile.UserUpdateRequest
 import com.example.letsplay.helper.Logger
 import com.example.letsplay.helper.UseCaseResult
@@ -22,12 +24,36 @@ import java.io.IOException
 
 interface ProfileRepository {
     suspend fun completeUser(userUpdateRequest: UserUpdateRequest): UseCaseResult<UserDto>?
-    suspend fun getUser(): UseCaseResult<UserDto>?
+    suspend fun getUser(nickname: String?): UseCaseResult<UserDto>?
     suspend fun uploadPhoto(imageBody: ImageBody): UseCaseResult<PhotoDto>?
     suspend fun getPhoto(imageId: Int): UseCaseResult<Any>?
+    suspend fun getSearchResult(text: String, from: Int, to: Int): UseCaseResult<List<Player>>?
 }
 
 class ProfileRepositoryImpl(private val service: ProfileService, private val localStorage: LocalStorage): ProfileRepository {
+    override suspend fun getSearchResult(text: String, from: Int, to: Int): UseCaseResult<List<Player>>? {
+        return localStorage.getToken()?.let {
+            try {
+                val task = service.getSearchResult(it, text, from, to)
+                UseCaseResult.Success(task)
+            }catch (ex: Exception){
+                when(ex) {
+                    is IOException -> {
+                        UseCaseResult.Error(ex as IOException)
+                    }
+                    is HttpException -> {
+                        UseCaseResult.Error(error = convertErrorBody(ex))
+                    }
+//                    is JsonSyntaxException -> {
+//                        UseCaseResult.Error(ex)
+//                    }
+                    else -> {
+                        UseCaseResult.Error(ex)
+                    }
+                }
+            }
+        }
+    }
 
     override suspend fun getPhoto(imageId: Int): UseCaseResult<Any>? {
         return localStorage.getToken()?.let {
@@ -80,10 +106,15 @@ class ProfileRepositoryImpl(private val service: ProfileService, private val loc
         }
     }
 
-    override suspend fun getUser(): UseCaseResult<UserDto>? {
+    override suspend fun getUser(nickname: String?): UseCaseResult<UserDto>? {
         return localStorage.getToken()?.let {
             try {
-                val task = service.getUser("application/json", it)
+                val task: UserDto?
+                if (nickname != null){
+                    task = service.getUser("application/json", it, nickname)
+                }else{
+                    task = service.getUser("application/json", it)
+                }
                 UseCaseResult.Success(task)
             }catch (ex: Exception){
                 when(ex) {

@@ -20,6 +20,8 @@ import com.example.letsplay.ui.main.profile.ProfileContract
 import com.example.letsplay.ui.main.profile.ProfilePresenter
 import com.example.letsplay.ui.questionnaire.QuestionnaireContract
 import com.example.letsplay.ui.questionnaire.QuestionnairePresenter
+import com.example.letsplay.ui.search.SearchContract
+import com.example.letsplay.ui.search.SearchPresenter
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Dispatchers
@@ -75,6 +77,12 @@ val appModule = module {
         get(),
         get()
     ) as MainContract.Presenter }
+
+    factory { (view: SearchContract.View) -> SearchPresenter(
+        view,
+        get(),
+        get()
+    ) as SearchContract.Presenter }
 
     factory<AuthRepository> { AuthRepositoryImpl(service = get(), localStorage = get()) }
     factory<ProfileRepository> { ProfileRepositoryImpl(service = get(), localStorage = get()) }

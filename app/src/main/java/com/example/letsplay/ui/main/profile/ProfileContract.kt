@@ -1,5 +1,6 @@
 package com.example.letsplay.ui.main.profile
 
+import android.provider.ContactsContract
 import com.bumptech.glide.load.model.GlideUrl
 import com.example.letsplay.entity.auth.PhotoDto
 import com.example.letsplay.entity.auth.UserDto
@@ -18,7 +19,7 @@ interface ProfileContract {
     }
 
     interface Presenter: BasePresenter<View>{
-        fun getUser()
+        fun getUser(nickname: String?)
         fun getPhoto(imageId: Int)
         fun uploadPhoto(imageBody: ImageBody)
     }

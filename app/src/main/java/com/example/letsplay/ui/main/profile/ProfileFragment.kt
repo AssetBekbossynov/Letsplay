@@ -2,8 +2,8 @@ package com.example.letsplay.ui.main.profile
 
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
@@ -33,7 +33,7 @@ import com.theartofdev.edmodo.cropper.CropImageView
 import android.database.Cursor
 import android.net.Uri
 import androidx.core.content.ContextCompat
-import com.example.letsplay.ui.search.SearchActivity
+import com.example.letsplay.ui.main.SearchListener
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.view_profile_match_item.view.*
 
@@ -44,13 +44,26 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
 
     lateinit var userDto: UserDto
 
+    private lateinit var searchListener: SearchListener
+
     companion object{
-        fun newInstance(): ProfileFragment{
-            return ProfileFragment()
+        fun newInstance(nickname: String?): ProfileFragment{
+            val fragment = ProfileFragment()
+            val arguments = Bundle()
+            arguments.putString(ConstantsExtra.NICKNAME, nickname)
+            fragment.arguments = arguments
+            return fragment
         }
     }
 
     override val presenter: ProfileContract.Presenter by inject { parametersOf(this) }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (arguments?.getString(ConstantsExtra.NICKNAME) == null){
+            searchListener = context as SearchListener
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +96,7 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
 
     override fun onResume() {
         super.onResume()
-        presenter.getUser()
+        presenter.getUser(arguments?.getString(ConstantsExtra.NICKNAME))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -108,7 +121,9 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.main_menu, menu)
+        if (arguments?.getString(ConstantsExtra.NICKNAME) == null) {
+            inflater.inflate(R.menu.main_menu, menu)
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -133,7 +148,7 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
     }
 
     override fun onPhotoUploadSuccess(photoDto: PhotoDto) {
-        presenter.getUser()
+        presenter.getUser(arguments?.getString(ConstantsExtra.NICKNAME))
     }
 
     override fun onPhotoUploadError(msg: String?) {
@@ -163,9 +178,7 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
                 }
             }else{
                 searchFriends.setOnClickListener {
-                    val intent = Intent(context, SearchActivity::class.java)
-                    intent.putExtra(ConstantsExtra.SEARCH_TYPE, true)
-                    startActivity(intent)
+                    searchListener.onOpenSearch(true)
                 }
             }
         }
@@ -206,9 +219,9 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
                 userDto.dateOfBirth), Calendar.getInstance())
 
             genderAge.text = resources.getQuantityString(R.plurals.profile_gender_age,
-                age.toInt(), userDto.gender, age)
+                age.toInt(), userDto.gender?.translation, age)
         }else{
-            genderAge.text = userDto.gender
+            genderAge.text = userDto.gender?.translation
         }
 
         friends.text = userDto.numberOfFriends.toString()

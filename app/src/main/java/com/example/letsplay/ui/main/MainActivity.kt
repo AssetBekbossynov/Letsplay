@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.example.letsplay.R
 import com.example.letsplay.entity.auth.UserDto
 import com.example.letsplay.helper.ConstantsExtra
@@ -16,15 +17,20 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import androidx.fragment.app.Fragment
+import com.example.letsplay.helper.utility.gone
+import com.example.letsplay.helper.utility.visible
+import com.example.letsplay.ui.search.SearchFragment
 
 
-class MainActivity : BaseActivity(), MainContract.View {
+class MainActivity : BaseActivity(), MainContract.View, SearchListener {
     override val presenter: MainContract.Presenter by inject { parametersOf(this) }
 
     val fragment1 = HomeFragment.newInstance()
-    val fragment2 = ProfileFragment.newInstance()
+    val fragment2 = ProfileFragment.newInstance(null)
     val fm = supportFragmentManager
     var active: Fragment = fragment2
+
+    lateinit var searchFragment: SearchFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +68,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 123){
-            replaceFragment(R.id.fragment_container, ProfileFragment.newInstance(), false)
+            replaceFragment(R.id.fragment_container, ProfileFragment.newInstance(null), false)
         }else if (resultCode == Activity.RESULT_CANCELED){
             finish()
         }
@@ -73,4 +79,24 @@ class MainActivity : BaseActivity(), MainContract.View {
         Logger.msg("here")
         presenter.wipeToken()
     }
+
+    override fun onOpenSearch(isFriend: Boolean) {
+        content.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+        searchFragment = SearchFragment.newInstance(isFriend)
+        addFragment(R.id.search_container, searchFragment, false, transition = true)
+        search_container.visible()
+        botNav.gone()
+    }
+
+    override fun onCloseSearch() {
+        content.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent))
+        removeFragment(searchFragment)
+        search_container.gone()
+        botNav.visible()
+    }
+}
+
+interface SearchListener{
+    fun onOpenSearch(isFriend: Boolean)
+    fun onCloseSearch()
 }
