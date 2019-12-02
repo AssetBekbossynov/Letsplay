@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
@@ -13,6 +14,8 @@ import com.example.letsplay.R
 import com.example.letsplay.entity.profile.Player
 import com.example.letsplay.helper.ConstantsExtra
 import com.example.letsplay.helper.Logger
+import com.example.letsplay.helper.utility.gone
+import com.example.letsplay.helper.utility.visible
 import com.example.letsplay.ui.common.BaseFragment
 import com.example.letsplay.ui.main.SearchListener
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -21,7 +24,7 @@ import org.koin.core.parameter.parametersOf
 
 class SearchFragment : BaseFragment(), SearchContract.View{
 
-    private var list: ArrayList<Player> = arrayListOf()
+    private var list: ArrayList<Player?> = arrayListOf()
 
     override val presenter: SearchContract.Presenter by inject { parametersOf(this) }
 
@@ -74,22 +77,46 @@ class SearchFragment : BaseFragment(), SearchContract.View{
         hover.setOnClickListener {  }
 
         rv.adapter = SearchPlayerAdapter(context!!, list)
-        rv.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
+        val layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
+        layoutManager.stackFromEnd = true
+        rv.layoutManager = layoutManager
 
         search.addTextChangedListener {
-            presenter.getResult(search.text.toString(), 1, 10)
+            if (!search.text.toString().equals("")){
+                (rv.adapter as SearchPlayerAdapter).addNullData()
+                presenter.getResult(search.text.toString(), 1, 10)
+            }else{
+                this.list.removeAll(this.list)
+                rv.adapter!!.notifyDataSetChanged()
+            }
         }
     }
     override fun onGetResultSuccess(list: List<Player>) {
-        this.list.removeAll(this.list)
-        for(i in list.indices){
-            this.list.add(list[i])
+        if (!list.isEmpty()){
+//            notFound.gone()
+//            rv.visible()
+            (rv.adapter as SearchPlayerAdapter).removeNull()
+            this.list.removeAll(this.list)
+            for(i in list.indices){
+                this.list.add(list[i])
+            }
+            rv.adapter!!.notifyDataSetChanged()
+        }else{
+//            rv.gone()
+//            notFound.visible()
+            this.list.removeAll(this.list)
+            for(i in list.indices){
+                this.list.add(list[i])
+            }
+            rv.adapter!!.notifyDataSetChanged()
         }
-        rv.adapter!!.notifyDataSetChanged()
-        Logger.msg("height " + rv.height)
     }
 
     override fun onGetResultError(msg: String?) {
+//        rv.gone()
+//        notFound.visible()
+        this.list.removeAll(this.list)
+        rv.adapter!!.notifyDataSetChanged()
         Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
     }
 

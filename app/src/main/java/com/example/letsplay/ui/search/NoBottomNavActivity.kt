@@ -10,6 +10,8 @@ import com.example.letsplay.helper.utility.gone
 import com.example.letsplay.ui.common.BaseActivity
 import com.example.letsplay.ui.main.profile.ProfileFragment
 import kotlinx.android.synthetic.main.activity_no_bottom_nav.*
+import kotlinx.android.synthetic.main.activity_no_bottom_nav.toolbar
+import kotlinx.android.synthetic.main.activity_questionnaire.*
 
 class NoBottomNavActivity : BaseActivity() {
 
