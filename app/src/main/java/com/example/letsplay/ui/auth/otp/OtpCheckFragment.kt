@@ -3,15 +3,10 @@ package com.example.letsplay.ui.auth.otp
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import com.example.letsplay.ui.common.BaseFragment
 import com.example.letsplay.R
 import com.example.letsplay.entity.auth.OtpResponse
 import com.example.letsplay.helper.ConstantsExtra
@@ -20,9 +15,9 @@ import com.example.letsplay.helper.utility.visible
 import com.example.letsplay.ui.auth.AuthActivity
 import com.example.letsplay.ui.auth.ContentChangedListener
 import com.example.letsplay.ui.auth.login.LoginFragment
+import com.example.letsplay.ui.common.BaseFragment
 import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.android.synthetic.main.otp_check_fragment.*
-import kotlinx.android.synthetic.main.otp_check_fragment.next
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import java.util.concurrent.TimeUnit
@@ -75,25 +70,6 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
 
         (activity as AuthActivity).progress.progress = 2
 
-        val watcher = CustomWatcher()
-
-        num1.isEnabled = true
-        num2.isEnabled = true
-        num3.isEnabled = true
-        num4.isEnabled = true
-
-        num1.addTextChangedListener(watcher)
-        num2.addTextChangedListener(watcher)
-        num3.addTextChangedListener(watcher)
-        num4.addTextChangedListener(watcher)
-
-        val keyListener = CustomKeyListener()
-
-        num1.setOnKeyListener(keyListener)
-        num2.setOnKeyListener(keyListener)
-        num3.setOnKeyListener(keyListener)
-        num4.setOnKeyListener(keyListener)
-
         next.setOnClickListener {
             checkOtp()
         }
@@ -140,7 +116,7 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
     }
 
     private fun checkOtp(){
-        otp = num1.text.toString() + num2.text.toString() + num3.text.toString() + num4.text.toString()
+        otp = code.text.toString()
         otp?.let {
             if (it.length == 4){
                 next.isEnabled = false
@@ -149,68 +125,6 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
                 Toast.makeText(context, getString(R.string.enter_code), Toast.LENGTH_LONG).show()
             }
         }
-    }
-
-    private inner class CustomWatcher: TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            if (s!!.length == 1){
-                if (s.hashCode() == num1.text?.hashCode()){
-                    num1.background = ContextCompat.getDrawable(context!!, R.drawable.et_bottom_line_blue)
-                    num2.requestFocus()
-                }
-                if (s.hashCode() == num2.text?.hashCode()){
-                    num2.background = ContextCompat.getDrawable(context!!, R.drawable.et_bottom_line_blue)
-                    num3.requestFocus()
-                }
-                if (s.hashCode() == num3.text?.hashCode()){
-                    num3.background = ContextCompat.getDrawable(context!!, R.drawable.et_bottom_line_blue)
-                    num4.requestFocus()
-                }
-                if (s.hashCode() == num4.text?.hashCode()){
-                    num4.background = ContextCompat.getDrawable(context!!, R.drawable.et_bottom_line_blue)
-                }
-            }else if (s.length == 0){
-                if (s.hashCode() == num4.text?.hashCode()){
-                    num4.background = ContextCompat.getDrawable(context!!, R.drawable.et_bottom_line_gray)
-                    num3.requestFocus()
-                }
-                if (s.hashCode() == num3.text?.hashCode()){
-                    num3.background = ContextCompat.getDrawable(context!!, R.drawable.et_bottom_line_gray)
-                    num2.requestFocus()
-                }
-                if (s.hashCode() == num2.text?.hashCode()){
-                    num2.background = ContextCompat.getDrawable(context!!, R.drawable.et_bottom_line_gray)
-                    num1.requestFocus()
-                }
-                if (s.hashCode() == num1.text?.hashCode()){
-                    num1.background = ContextCompat.getDrawable(context!!, R.drawable.et_bottom_line_gray)
-                }
-            }
-        }
-
-    }
-
-    private inner class CustomKeyListener: View.OnKeyListener{
-        override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
-            if (keyCode == KeyEvent.KEYCODE_DEL){
-                if (v!!.id == num4.id){
-                    num3.requestFocus()
-                }
-                if (v.id == num3.id){
-                    num2.requestFocus()
-                }
-                if (v.id == num2.id){
-                    num1.requestFocus()
-                }
-            }
-            return false
-        }
-
     }
 
     private fun hmsTimeFormatter(seconds: Long): String {

@@ -68,83 +68,25 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <EditText
-        android:id="@+id/num1"
-        android:layout_width="48dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/et_bottom_line_gray"
-        android:inputType="number"
-        android:maxLength="1"
-        android:enabled="false"
-        tool:text = "0"
+    <com.jkb.vcedittext.VerificationCodeEditText
+        android:id="@+id/code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
         android:textColor="@color/black"
-        android:textAlignment="center"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toStartOf="@+id/num2"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timerLayout" />
-
-    <EditText
-        android:id="@+id/num2"
-        android:layout_width="48dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/et_bottom_line_gray"
-        android:inputType="number"
-        android:maxLength="1"
-        android:enabled="false"
-        tool:text = "0"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toStartOf="@+id/num3"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@+id/num1"
-        app:layout_constraintTop_toBottomOf="@id/timerLayout" />
-
-    <EditText
-        android:id="@+id/num3"
-        android:layout_width="48dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/et_bottom_line_gray"
-        android:inputType="number"
-        android:maxLength="1"
-        android:enabled="false"
-        tool:text = "0"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toStartOf="@+id/num4"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@+id/num2"
-        app:layout_constraintTop_toBottomOf="@id/timerLayout" />
-
-
-    <EditText
-        android:id="@+id/num4"
-        android:layout_width="48dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/et_bottom_line_gray"
-        android:inputType="number"
-        android:maxLength="1"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:textSize="22sp"
+        android:textSize="28sp"
+        app:bottomLineHeight="2dp"
+        app:bottomLineNormalColor="@color/light_gray"
+        app:bottomLineSelectedColor="@color/colorAccent"
+        app:figures="4"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@+id/num3"
-        app:layout_constraintTop_toBottomOf="@id/timerLayout" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerLayout"
+        app:selectedBackgroundColor="@color/white"
+        app:verCodeMargin="16dp" />
 
     <Button
         android:id="@+id/resend"
