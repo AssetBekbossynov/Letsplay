@@ -113,8 +113,8 @@ class SearchFragment : BaseFragment(), SearchContract.View{
     }
 
     override fun onGetResultError(msg: String?) {
-//        rv.gone()
-//        notFound.visible()
+        rv.gone()
+        notFound.gone()
         this.list.removeAll(this.list)
         rv.adapter!!.notifyDataSetChanged()
         Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()

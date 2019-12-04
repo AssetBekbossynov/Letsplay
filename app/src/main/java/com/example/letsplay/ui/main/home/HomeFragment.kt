@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.letsplay.R
 import com.example.letsplay.ui.common.BaseFragment
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment(){
 
@@ -25,5 +26,9 @@ class HomeFragment : BaseFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val pagerAdapter = HomePagerAdapter(activity?.supportFragmentManager)
+        viewPager.adapter = pagerAdapter
+        tab.setupWithViewPager(viewPager)
     }
 }

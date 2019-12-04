@@ -6,5 +6,6 @@ object ConstantsExtra {
     const val PHONE_NUMBER = "phoneNumber"
     const val SEARCH_TYPE = "isFriend"
     const val NICKNAME = "nickname"
+    const val ADAPTER_TYPE = "adapterType"
 
 }
