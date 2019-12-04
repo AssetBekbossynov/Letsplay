@@ -59,6 +59,18 @@
 
     </com.google.android.material.tabs.TabLayout>
 
+    <TextView
+        android:id="@+id/notFound"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:text="@string/player_not_found"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:padding="8dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tab"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:background="@color/white"
@@ -69,8 +81,15 @@
         android:requiresFadingEdge="vertical"
         android:scrollbars="none"
         android:overScrollMode="never"
-        app:layout_constraintTop_toBottomOf="@id/tab"
-        app:layout_constraintBottom_toTopOf="@id/hover"/>
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/tab"/>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        app:constraint_referenced_ids="rv,notFound"
+        app:barrierDirection="bottom"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"/>
 
     <View
         android:layout_height="1dp"
@@ -83,7 +102,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/black_transparent"
-        app:layout_constraintTop_toBottomOf="@id/rv"
+        app:layout_constraintTop_toBottomOf="@id/barrier"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

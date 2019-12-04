@@ -22,14 +22,9 @@ class NoBottomNavActivity : BaseActivity() {
         val intent = intent
 
         if (intent.hasExtra(ConstantsExtra.NICKNAME)){
-            replaceFragment(R.id.main_container, ProfileFragment.newInstance(intent.getStringExtra(ConstantsExtra.NICKNAME)))
+            replaceFragment(R.id.main_container, ProfileFragment.newInstance(intent.getStringExtra(ConstantsExtra.NICKNAME)), backStack = false)
         }
 
         createSupportActionBar((toolbar as Toolbar), getString(R.string.profile))
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finish()
     }
 }

@@ -93,8 +93,8 @@ class SearchFragment : BaseFragment(), SearchContract.View{
     }
     override fun onGetResultSuccess(list: List<Player>) {
         if (!list.isEmpty()){
-//            notFound.gone()
-//            rv.visible()
+            notFound.gone()
+            rv.visible()
             (rv.adapter as SearchPlayerAdapter).removeNull()
             this.list.removeAll(this.list)
             for(i in list.indices){
@@ -102,8 +102,8 @@ class SearchFragment : BaseFragment(), SearchContract.View{
             }
             rv.adapter!!.notifyDataSetChanged()
         }else{
-//            rv.gone()
-//            notFound.visible()
+            rv.gone()
+            notFound.visible()
             this.list.removeAll(this.list)
             for(i in list.indices){
                 this.list.add(list[i])

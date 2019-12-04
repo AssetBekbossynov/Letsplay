@@ -81,6 +81,8 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         profilePhoto.setOnClickListener {
 
             context?.let {
