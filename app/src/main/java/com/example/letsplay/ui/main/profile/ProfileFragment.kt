@@ -33,6 +33,7 @@ import com.theartofdev.edmodo.cropper.CropImageView
 import android.database.Cursor
 import android.net.Uri
 import androidx.core.content.ContextCompat
+import com.example.letsplay.entity.profile.FriendsInfo
 import com.example.letsplay.ui.main.SearchListener
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.view_profile_match_item.view.*
@@ -162,21 +163,50 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
 
         context?.let {
             if (userDto.friendsInfo != null){
-                if (userDto.friendsInfo.status!!.equals("PENDING")){
-                    if (userDto.friendsInfo.acceptingUser!!.equals(userDto.nickname)){
-                        friendRequest.gone()
-                        searchFriends.visible()
-                    }else{
+                when(userDto.friendsInfo.status!!){
+                    "PENDING" -> {
+                        friendRequest.visible()
+                        searchFriends.gone()
+                        accept.setOnClickListener {
+                            accept.isEnabled = false
+                            presenter.approveFriend(userDto.nickname!!)
+                        }
+                        reject.setOnClickListener {
+                            reject.isEnabled = false
+                            presenter.rejectFriend(userDto.nickname!!)
+                        }
+                    }
+                    "REQUESTED" -> {
                         (searchFriends as MaterialButton).strokeColor = ContextCompat.getColorStateList(it, R.color.gray)
                         (searchFriends as MaterialButton).setTextColor(ContextCompat.getColor(it, R.color.gray))
                         (searchFriends as MaterialButton).text = getString(R.string.cancel_request)
-                        friendRequest.visible()
-                        searchFriends.gone()
+                        friendRequest.gone()
+                        searchFriends.visible()
+                        searchFriends.setOnClickListener {
+                            searchFriends.isEnabled = false
+                            presenter.cancelFriend(userDto.nickname!!)
+                        }
                     }
-                }else{
-                    (searchFriends as MaterialButton).text = getString(R.string.add_friend)
-                    (searchFriends as MaterialButton).strokeColor = ContextCompat.getColorStateList(it, R.color.colorAccent)
-                    (searchFriends as MaterialButton).setTextColor(ContextCompat.getColor(it, R.color.colorAccent))
+                    "APPROVED" -> {
+                        (searchFriends as MaterialButton).strokeColor = ContextCompat.getColorStateList(it, R.color.gray)
+                        (searchFriends as MaterialButton).setTextColor(ContextCompat.getColor(it, R.color.gray))
+                        (searchFriends as MaterialButton).text = getString(R.string.remove_friend)
+                        friendRequest.gone()
+                        searchFriends.visible()
+                        searchFriends.setOnClickListener {
+                            searchFriends.isEnabled = false
+                            presenter.unfriendFriend(userDto.nickname!!)
+                        }
+                    }
+                    else -> {
+                        (searchFriends as MaterialButton).text = getString(R.string.add_friend)
+                        (searchFriends as MaterialButton).strokeColor = ContextCompat.getColorStateList(it, R.color.colorAccent)
+                        (searchFriends as MaterialButton).setTextColor(ContextCompat.getColor(it, R.color.colorAccent))
+                        searchFriends.setOnClickListener {
+                            searchFriends.isEnabled = false
+                            presenter.addFriend(userDto.nickname!!)
+                        }
+                    }
                 }
             }else{
                 searchFriends.setOnClickListener {
@@ -266,6 +296,20 @@ class ProfileFragment : BaseFragment(), ProfileContract.View{
     }
 
     override fun onGetImageError(msg: String?) {
+        Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onFriendOperationSuccess(friendsInfo: FriendsInfo) {
+        searchFriends.isEnabled = true
+        accept.isEnabled = true
+        reject.isEnabled = true
+        presenter.getUser(userDto.nickname)
+    }
+
+    override fun onFriendOperationError(msg: String?) {
+        searchFriends.isEnabled = true
+        accept.isEnabled = true
+        reject.isEnabled = true
         Toast.makeText(context, "$msg", Toast.LENGTH_LONG).show()
     }
 

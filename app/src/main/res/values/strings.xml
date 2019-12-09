@@ -64,7 +64,8 @@
     <string name="played_match_date">The last match %s</string>
     <string name="friend_request">Friend request</string>
     <string name="add_friend">Add friend</string>
-    <string name="cancel_request">cancel request</string>
+    <string name="cancel_request">Cancel request</string>
+    <string name="remove_friend">Remove friend</string>
 
     <string name="fields">Fields</string>
     <string name="players">Players</string>

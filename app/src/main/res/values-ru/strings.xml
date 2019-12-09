@@ -56,4 +56,9 @@
     <string name="friend_request">Запрос в друзья</string>
     <string name="add_friend">Добавить в друзья</string>
     <string name="cancel_request">Отменить запрос</string>
+    <string name="remove_friend">Удалить друга</string>
+    <string name="player_not_found">Игрок не найден</string>
+    <string name="players">Игроки</string>
+    <string name="matches">Матчи</string>
+    <string name="fields">Поля</string>
 </resources>

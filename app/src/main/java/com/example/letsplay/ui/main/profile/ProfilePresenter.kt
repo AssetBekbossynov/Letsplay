@@ -1,6 +1,5 @@
 package com.example.letsplay.ui.main.profile
 
-import android.provider.ContactsContract
 import com.bumptech.glide.load.model.GlideUrl
 import com.example.letsplay.entity.common.ImageBody
 import com.example.letsplay.helper.Logger
@@ -16,6 +15,86 @@ class ProfilePresenter(override var view: ProfileContract.View?,
                        override val coroutineContext: CoroutineContext,
                        private val profileRep: ProfileRepository) :
     ProfileContract.Presenter, CoroutineScope{
+
+    override fun approveFriend(nickname: String) {
+        launch {
+            val result = withContext(Dispatchers.IO){
+                profileRep.approveFriend(nickname)
+            }
+            when(result){
+                is UseCaseResult.Success -> {
+                    view?.onFriendOperationSuccess(result.data)
+                }
+                is UseCaseResult.Error -> {
+                    view?.onFriendOperationError(result.error?.message)
+                }
+            }
+        }
+    }
+
+    override fun cancelFriend(nickname: String) {
+        launch {
+            val result = withContext(Dispatchers.IO){
+                profileRep.cancelFriend(nickname)
+            }
+            when(result){
+                is UseCaseResult.Success -> {
+                    view?.onFriendOperationSuccess(result.data)
+                }
+                is UseCaseResult.Error -> {
+                    view?.onFriendOperationError(result.error?.message)
+                }
+            }
+        }
+    }
+
+    override fun rejectFriend(nickname: String) {
+        launch {
+            val result = withContext(Dispatchers.IO){
+                profileRep.rejectFriend(nickname)
+            }
+            when(result){
+                is UseCaseResult.Success -> {
+                    view?.onFriendOperationSuccess(result.data)
+                }
+                is UseCaseResult.Error -> {
+                    view?.onFriendOperationError(result.error?.message)
+                }
+            }
+        }
+    }
+
+    override fun unfriendFriend(nickname: String) {
+        launch {
+            val result = withContext(Dispatchers.IO){
+                profileRep.unfriendFriend(nickname)
+            }
+            when(result){
+                is UseCaseResult.Success -> {
+                    view?.onFriendOperationSuccess(result.data)
+                }
+                is UseCaseResult.Error -> {
+                    view?.onFriendOperationError(result.error?.message)
+                }
+            }
+        }
+    }
+
+    override fun addFriend(nickname: String) {
+        launch {
+            val result = withContext(Dispatchers.IO){
+                profileRep.addFriend(nickname)
+            }
+            when(result){
+                is UseCaseResult.Success -> {
+                    view?.onFriendOperationSuccess(result.data)
+                }
+                is UseCaseResult.Error -> {
+                    view?.onFriendOperationError(result.error?.message)
+                }
+            }
+        }
+    }
 
     override fun getPhoto(imageId: Int) {
         launch {

@@ -2,6 +2,7 @@ package com.example.letsplay.service
 
 import com.example.letsplay.entity.auth.PhotoDto
 import com.example.letsplay.entity.auth.UserDto
+import com.example.letsplay.entity.profile.FriendsInfo
 import com.example.letsplay.entity.profile.Player
 import com.example.letsplay.entity.profile.UserUpdateRequest
 import okhttp3.MultipartBody
@@ -32,13 +33,34 @@ interface ProfileService {
     suspend fun uploadPhoto(@Header("Authorization") token: String,
                             @Part file: MultipartBody.Part): PhotoDto
 
-    @GET("api/user/image/{imageId}")
-    suspend fun getPhoto(@Header("Authorization") token: String,
-                         @Path("imageId") imageId: Int)
+    @POST("api/friend/{nickname}")
+    suspend fun addFriend(@Header("Authorization") token: String,
+                          @Header("Content-Type") contentType: String,
+                          @Path("nickname") nickname: String): FriendsInfo
 
     @GET("api/user/search/{text}")
     suspend fun getSearchResult(@Header("Authorization") token: String,
                                 @Path("text") text: String,
                                 @Query("1") from: Int,
                                 @Query("10") to: Int): List<Player>
+
+    @PUT("/api/friend/approve/{nickname}")
+    suspend fun approveFriend(@Header("Authorization") token: String,
+                              @Header("Content-Type") contentType: String,
+                              @Path("nickname") nickname: String): FriendsInfo
+
+    @PUT("/api/friend/cancel/{nickname}")
+    suspend fun cancelFriend(@Header("Authorization") token: String,
+                              @Header("Content-Type") contentType: String,
+                              @Path("nickname") nickname: String): FriendsInfo
+
+    @PUT("/api/friend/reject/{nickname}")
+    suspend fun rejectFriend(@Header("Authorization") token: String,
+                              @Header("Content-Type") contentType: String,
+                              @Path("nickname") nickname: String): FriendsInfo
+
+    @PUT("/api/friend/unfriend/{nickname}")
+    suspend fun unfriendFriend(@Header("Authorization") token: String,
+                              @Header("Content-Type") contentType: String,
+                              @Path("nickname") nickname: String): FriendsInfo
 }
