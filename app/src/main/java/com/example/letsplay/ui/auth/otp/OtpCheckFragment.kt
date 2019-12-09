@@ -66,7 +66,7 @@ class OtpCheckFragment: BaseFragment(), OtpCheckContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        phoneNumber = arguments?.getParcelable<OtpResponse>(ConstantsExtra.OTP_RESPONSE)?.userDto!!.phoneNumber
+        phoneNumber = arguments?.getParcelable<OtpResponse>(ConstantsExtra.OTP_RESPONSE)?.phoneNumber
 
         (activity as AuthActivity).progress.progress = 2
 

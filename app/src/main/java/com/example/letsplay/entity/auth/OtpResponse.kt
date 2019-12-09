@@ -6,4 +6,4 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class OtpResponse(@SerializedName("actionCodeExpirationTime") val expiresIn: Int,
-                       @SerializedName("userDto") val userDto: UserDto) : Parcelable
+                       @SerializedName("phoneNumber") val phoneNumber: String) : Parcelable
